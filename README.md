@@ -59,12 +59,12 @@ it was published
 		       
 Examples of usage:
 
-$ java  TDE  e  sample_keys/KEY1  sample_plaintext/19_CMN-Comm\(R\).pdf  sample_ciphertext/19_CMN-Comm\(R\).pdf.enc
+	$ java  TDE  e  sample_keys/KEY1  sample_plaintext/19_CMN-Comm\(R\).pdf  sample_ciphertext/19_CMN-Comm\(R\).pdf.enc
 
-$ java  TDE  e  sample_keys/KEY1  sample_plaintext/the_art_of_war_by_sun_tzu.txt  sample_ciphertext/the_art_of_war_by_sun_tzu.txt.enc
+	$ java  TDE  e  sample_keys/KEY1  sample_plaintext/the_art_of_war_by_sun_tzu.txt sample_ciphertext/the_art_of_war_by_sun_tzu.txt.enc
 
-$ java  TDE  d  sample_keys/KEY1  sample_ciphertext/19_CMN-Comm\(R\).pdf.enc  article.pdf
+	$ java  TDE  d  sample_keys/KEY1  sample_ciphertext/19_CMN-Comm\(R\).pdf.enc  article.pdf
 
-$ java  TDE  d  sample_keys/KEY1  sample_ciphertext/the_art_of_war_by_sun_tzu.txt.enc art_of_war.txt
+	$ java  TDE  d  sample_keys/KEY1  sample_ciphertext/the_art_of_war_by_sun_tzu.txt.enc art_of_war.txt
 
 Please report any bugs to: mario.rincon.nigro@gmail.com
