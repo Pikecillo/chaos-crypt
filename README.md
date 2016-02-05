@@ -6,13 +6,21 @@ of an encryption scheme called Text Dependent Encryption.
 
 The application was developed in the Java programming language
 
-TDE usage: java TDE mode key input output [perturbate]
+TDE usage: 
+
+	java TDE mode key input output [perturbate]
+
         mode --> (e | d)
-        key  --> path to key file
-                e: encrypt
+
+		e: encrypt
                 d: decrypt
+
+        key  --> path to key file
+                
         input --> full path to input plaintext/ciphertext file
+        
         output --> full path to output ciphertext/plaintext file
+        
         perturbate (optional) --> 1
 
 Note: if encryption is performed with the perturbate
