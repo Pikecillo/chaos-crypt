@@ -1,4 +1,4 @@
-package cmn;
+package ccrypt.cmn;
 
 /*
     Some of the usual chaotic maps.

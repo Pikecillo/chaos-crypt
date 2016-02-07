@@ -1,4 +1,4 @@
-package cmn;
+package ccrypt.cmn;
 
 /*
     Representation of the coupling matrix for

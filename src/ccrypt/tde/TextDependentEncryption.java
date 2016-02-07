@@ -1,8 +1,8 @@
-package tde;
+package ccrypt.tde;
 
-import cmn.CoupledMapNetwork;
-import cmn.Maps;
-import cmn.NetworkState;
+import ccrypt.cmn.CoupledMapNetwork;
+import ccrypt.cmn.Maps;
+import ccrypt.cmn.NetworkState;
 
 /*
     Class for performing Text Depenent Encryption

@@ -1,7 +1,7 @@
-package tde;
+package ccrypt.tde;
 
-import cmn.CouplingMatrix;
-import cmn.NetworkState;
+import ccrypt.cmn.CouplingMatrix;
+import ccrypt.cmn.NetworkState;
 
 /*
     Key for the Text Encryption Method

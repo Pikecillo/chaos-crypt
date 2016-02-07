@@ -1,3 +1,4 @@
+package ccrypt;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -6,15 +7,15 @@ import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.InputMismatchException;
-import cmn.CouplingMatrix;
-import cmn.NetworkState;
-import tde.CiphertextLoader;
-import tde.Key;
-import tde.KeyLoader;
-import tde.PlaintextLoader;
-import tde.TextDependentEncryption;
+import ccrypt.cmn.CouplingMatrix;
+import ccrypt.cmn.NetworkState;
+import ccrypt.tde.CiphertextLoader;
+import ccrypt.tde.Key;
+import ccrypt.tde.KeyLoader;
+import ccrypt.tde.PlaintextLoader;
+import ccrypt.tde.TextDependentEncryption;
 
-class TDE {
+class CCryptMain {
 
     // Perturbate option
     private static boolean perturbate;

@@ -1,4 +1,4 @@
-package tde;
+package ccrypt.tde;
 
 import java.io.InputStream;
 import java.io.IOException;

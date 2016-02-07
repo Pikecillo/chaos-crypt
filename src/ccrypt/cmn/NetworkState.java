@@ -1,4 +1,4 @@
-package cmn;
+package ccrypt.cmn;
 
 /*
     Representation of a state for a coupled coupled map network

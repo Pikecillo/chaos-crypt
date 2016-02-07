@@ -1,11 +1,11 @@
-package tde;
+package ccrypt.tde;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import cmn.NetworkState;
-import cmn.CouplingMatrix;
+import ccrypt.cmn.NetworkState;
+import ccrypt.cmn.CouplingMatrix;
 
 /*
     Key loader for a TDE key
