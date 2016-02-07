@@ -6,13 +6,21 @@ of an encryption scheme called Text Dependent Encryption.
 
 The application was developed in the Java programming language
 
-TDE usage: java TDE mode key input output [perturbate]
+TDE usage: 
+
+	java TDE mode key input output [perturbate]
+
         mode --> (e | d)
-        key  --> path to key file
-                e: encrypt
+
+		e: encrypt
                 d: decrypt
+
+        key  --> path to key file
+                
         input --> full path to input plaintext/ciphertext file
+        
         output --> full path to output ciphertext/plaintext file
+        
         perturbate (optional) --> 1
 
 Note: if encryption is performed with the perturbate
@@ -51,12 +59,12 @@ it was published
 		       
 Examples of usage:
 
-$ java  TDE  e  sample_keys/KEY1  sample_plaintext/19_CMN-Comm\(R\).pdf  sample_ciphertext/19_CMN-Comm\(R\).pdf.enc
+	$ java  TDE  e  sample_keys/KEY1  sample_plaintext/19_CMN-Comm\(R\).pdf  sample_ciphertext/19_CMN-Comm\(R\).pdf.enc
 
-$ java  TDE  e  sample_keys/KEY1  sample_plaintext/the_art_of_war_by_sun_tzu.txt  sample_ciphertext/the_art_of_war_by_sun_tzu.txt.enc
+	$ java  TDE  e  sample_keys/KEY1  sample_plaintext/the_art_of_war_by_sun_tzu.txt sample_ciphertext/the_art_of_war_by_sun_tzu.txt.enc
 
-$ java  TDE  d  sample_keys/KEY1  sample_ciphertext/19_CMN-Comm\(R\).pdf.enc  article.pdf
+	$ java  TDE  d  sample_keys/KEY1  sample_ciphertext/19_CMN-Comm\(R\).pdf.enc  article.pdf
 
-$ java  TDE  d  sample_keys/KEY1  sample_ciphertext/the_art_of_war_by_sun_tzu.txt.enc art_of_war.txt
+	$ java  TDE  d  sample_keys/KEY1  sample_ciphertext/the_art_of_war_by_sun_tzu.txt.enc art_of_war.txt
 
 Please report any bugs to: mario.rincon.nigro@gmail.com
