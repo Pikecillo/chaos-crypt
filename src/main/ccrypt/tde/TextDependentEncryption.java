@@ -114,7 +114,6 @@ public class TextDependentEncryption implements SymmetricCipher {
 		for(int i = 0 ; i < ciphertext.length ; i += 2) {
 			// Iterate the coupled map network for
 			// the given number of states
-
 			int lower = ciphertext[i] & 0xFF;
 			int upper = ciphertext[i + 1] & 0xFF;
 			int iterations = (upper << 8) | lower;

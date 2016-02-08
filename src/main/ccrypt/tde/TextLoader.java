@@ -4,8 +4,8 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.util.Vector;
 
-/*
-    Plaintext loader for the TDE
+/**
+ * Text loader
  */
 public class TextLoader {
 

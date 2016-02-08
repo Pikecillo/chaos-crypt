@@ -10,7 +10,7 @@ public class CoupledMapNetwork {
 	private Matrix coupling;
 
 	private ChaoticMap localDynamic;
-
+	
 	/**
 	 * Create an instance of a couple map network given an initial state,
 	 * and a coupling matrix.

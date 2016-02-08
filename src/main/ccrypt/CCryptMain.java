@@ -86,8 +86,8 @@ class CCryptMain {
 		}
 	}
 
-	/*
-	Reads the argument and sets the environment for TDE
+	/**
+	 * Reads the argument and sets the environment for TDE
 	 */
 	private static void parseArguments(String args[]){
 
@@ -105,10 +105,10 @@ class CCryptMain {
 		if(mode.compareTo("d") != 0 && mode.compareTo("e") != 0)
 			abortTDE(true);
 
-		// If perturbate parameter given
+		// If perturb parameter given
 		if(args.length == 5){
 
-			// If wrong perturbate parameter
+			// If wrong perturb parameter
 			if(args[4].compareTo("1") != 0)
 				abortTDE(true);
 
@@ -116,8 +116,8 @@ class CCryptMain {
 		}
 	}
 
-	/*
-	Shows usage and stops execution
+	/**
+	 * Shows usage and stops execution
 	 */
 	private static void abortTDE(boolean showUsage){
 
@@ -126,8 +126,8 @@ class CCryptMain {
 		System.exit(0);
 	}
 
-	/*
-	Shows error messages
+	/**
+	 * Shows error messages
 	 */
 	private static void errorMessage(int error, String additional){
 
@@ -159,27 +159,27 @@ class CCryptMain {
 		abortTDE(showUsage);
 	}
 
-	/*
-      Prints TDE usage
+	/**
+     * Prints TDE usage
 	 */
 	private static void usage(){
 		String message =
-				"\nTDE usage: java TDE mode key input output [perturbate]\n" +
+				"\nTDE usage: java TDE mode key input output [perturb]\n" +
 						"\tmode --> (e | d)\n" +
 						"\tkey  --> path to key file\n" +
 						"\t\te: encrypt\n" +
 						"\t\td: decrypt\n" +
 						"\tinput --> full path to input plaintext/ciphertext file\n" +
 						"\toutput --> full path to output ciphertext/plaintext file\n" +
-						"\tperturbate (optional) --> 1\n" +
+						"\tperturb (optional) --> 1\n" +
 						"Note: if encryption is performed with the perturbate\n" +
 						"option on, then decryption must be performed with the\n" +
 						"perturbation option on as well\n";
 		System.err.println(message);
 	}
 
-	/*
-      Writes the content of an array of bytes to a file
+	/**
+     * Writes the content of an array of bytes to a file
 	 */
 	private static void writeBytesToFile(String name, byte content[]){
 
@@ -193,8 +193,8 @@ class CCryptMain {
 		}
 	}
 
-	/*
-	Writes the contnt of an array of integers to a file
+	/**
+	 * Writes the contnt of an array of integers to a file
 	 */
 	private static void writeIntegersToFile(String name, int content[]){
 
