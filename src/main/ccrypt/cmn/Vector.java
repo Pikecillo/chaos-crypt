@@ -7,19 +7,54 @@ public class Vector {
 
     private double elements[];
     
+    /**
+     * Create a vector given its size. All the elements get initialized
+     * to zero.
+     *
+     * @param A given size.
+     */
     public Vector(int size){
 	elements = new double[size];
 	
 	initialize();
     }
     
+    /**
+     * Create a vector given an array of doubles.
+     *
+     * @param An array of doubles.
+     */
     public Vector(double s[]) {
-	elements = new double[elements.length];
+	elements = new double[s.length];
 
 	for(int i = 0; i < elements.length; i++)
 	    elements[i] = s[i];
     }
-    
+
+    /**
+     * Create a vector by copying another one.
+     *
+     * @params A given vector to copy.
+     */
+    public Vector(Vector v) {
+	this(v.getElements());
+    }
+
+    /**
+     * Convert to string representation.
+     *
+     * @return String representation of vector.
+     */
+    public String toString() {
+	String s = "[";
+
+	for(int i = 0; i < elements.length; i++) {
+	    s += (i != 0 ? ", " : "") + String.valueOf(elements[i]);
+	}
+
+	return s + "]";
+    }
+
     /**
      * Addition with a given vector
      *

@@ -19,7 +19,7 @@ public class CoupledMapNetwork {
      * @param c Coupling matrix of the network.
      */
     public CoupledMapNetwork(Vector s, Matrix c){
-	state = s;
+	setState(s);
 	coupling = c;
     }
 
@@ -37,7 +37,7 @@ public class CoupledMapNetwork {
      * @param s A given state.
      */
     public void setState(Vector s){
-	state = s;
+	state = new Vector(s);
     }
 
     /**

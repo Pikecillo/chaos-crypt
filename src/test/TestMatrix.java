@@ -2,6 +2,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 import ccrypt.cmn.Matrix;
+import ccrypt.cmn.Vector;
 
 public class TestMatrix {
 
@@ -37,6 +38,25 @@ public class TestMatrix {
 
 		assertTrue(m.getElement(i, j) == val);
 	    }
+	}
+    }
+
+    @Test
+    public void testMul() {
+	double matrix[][] = {
+	    { 1.0, 0.0, 0.0 },
+	    { 0.0, 1.0, 0.0 },
+	    { 0.0, 0.0, 1.0 }
+	};
+	double vector[] = { 17.0, 19.0, 18.0 };
+
+	Vector v = new Vector(vector);
+	Matrix m = new Matrix(matrix);
+
+	Vector r = m.mul(v);
+
+	for(int i = 0; i < r.getSize(); i++) {
+	    assertTrue(r.getElement(i) == v.getElement(i));
 	}
     }
 }

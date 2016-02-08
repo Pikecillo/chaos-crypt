@@ -10,7 +10,7 @@ import java.util.InputMismatchException;
 import ccrypt.tde.CiphertextLoader;
 import ccrypt.tde.Key;
 import ccrypt.tde.KeyLoader;
-import ccrypt.tde.PlaintextLoader;
+import ccrypt.tde.TextLoader;
 import ccrypt.tde.TextDependentEncryption;
 
 class CCryptMain {
@@ -50,8 +50,8 @@ class CCryptMain {
 	}
 
 	Key key = keyLoader.getKey();
-	TextDependentEncryption tde = new TextDependentEncryption(key,
-						perturbate);
+	TextDependentEncryption tde =
+	    new TextDependentEncryption(key, perturbate);
 	FileInputStream input = null;
 
 	// Handle input file not found
@@ -62,24 +62,27 @@ class CCryptMain {
 	}
 
 	if(mode.compareTo("e") == 0){
-	    PlaintextLoader pl = new PlaintextLoader(input);
-	    byte plaintext[] = pl.getPlaintext();
+	    try {
+		TextLoader pl = new TextLoader(input);
+		byte plaintext[] = pl.getText();
 	    
-	    writeIntegersToFile(outputfile, tde.encrypt(plaintext));
+		writeBytesToFile(outputfile, tde.encrypt(plaintext));
+	    } catch (Exception e) {
+		errorMessage(UNEXPECTED, "");
+	    }
 	}
 
 	if(mode.compareTo("d") == 0){
-	    CiphertextLoader cl = null;
+	    TextLoader cl = null;
 
 	    try{
-		cl = new CiphertextLoader(input);
+		cl = new TextLoader(input);
+		byte ciphertext[] = cl.getText();
+
+		writeBytesToFile(outputfile, tde.decrypt(ciphertext));
 	    } catch(Exception e){
-		errorMessage(CORRUPTED_CIPHERTEXT, "");
+		errorMessage(UNEXPECTED, "");
 	    }
-
-	    int ciphertext[] = cl.getCiphertext();
-
-	    writeBytesToFile(outputfile, tde.decrypt(ciphertext));
 	}
     }
 

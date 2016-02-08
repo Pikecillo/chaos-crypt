@@ -55,7 +55,7 @@ public class Matrix {
 	    double dot = 0.0;
 
 	    for(int j = 0; j < size; j++) {
-		dot += elements[i * size + j] * v.getElement(i);
+		dot += elements[i * size + j] * v.getElement(j);
 	    }
 
 	    res.setElement(i, dot);
