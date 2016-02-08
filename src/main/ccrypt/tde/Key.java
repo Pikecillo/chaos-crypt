@@ -1,38 +1,47 @@
 package ccrypt.tde;
 
-import ccrypt.cmn.CouplingMatrix;
-import ccrypt.cmn.NetworkState;
+import ccrypt.cmn.Matrix;
+import ccrypt.cmn.Vector;
 
-/*
-    Key for the Text Encryption Method
-*/
+/**
+ * Key for the Text Dependent Encryption method. Basically the aggregation
+ * of a state vector and a coupling matrix of a coupled map network.
+ */
 public class Key{
 
-    // Initial state of a coupled map network
-    private NetworkState initialState;
-    // Coupling matrix for a coupled map network
-    private CouplingMatrix couplingMatrix;
+    private Vector initialState;
 
-    /*
-	For creating and instance of a key
-    */
-    public Key(NetworkState initial, CouplingMatrix coupling){
+    private Matrix couplingMatrix;
 
-	initialState = initial;
+    /**
+     * Create an instance of the key.
+     *
+     * @param state Vector representing the initial state of a coupled
+     *        map network.
+     * @param coupling Matrix representing the coupling of elements in
+     *        a coupled map network. 
+     */
+    public Key(Vector state, Matrix coupling){
+
+	initialState = state;
 	couplingMatrix = coupling;
     }
 
-    /*
-	Returns the coupling matrix associated with the key
-    */
-    public CouplingMatrix getCoupling(){
+    /**
+     * Get the coupling matrix.
+     *
+     * @return The coupling matrix.
+     */
+    public Matrix getCoupling(){
 	return couplingMatrix;
     }
 
-    /*
-	Returns the initial state associated with the key
-    */
-    public NetworkState getState(){
+    /**
+     *	Get the initial state vector.
+     *
+     * @return The initial state vector.
+     */
+    public Vector getState(){
 	return initialState;
     }
 }

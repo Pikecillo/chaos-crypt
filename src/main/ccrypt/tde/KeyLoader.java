@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import ccrypt.cmn.NetworkState;
-import ccrypt.cmn.CouplingMatrix;
+import ccrypt.cmn.Vector;
+import ccrypt.cmn.Matrix;
 
-/*
-    Key loader for a TDE key
-*/
+/**
+ * Loader of a Text Dependent Encryption method key.
+ */
 public class KeyLoader {
 
     // The laoded key
@@ -21,8 +21,8 @@ public class KeyLoader {
 	The network associated to the key has the
 	size indicated by the second argument
     */
-    public KeyLoader(String path, int size) throws FileNotFoundException,
-		InputMismatchException {
+    public KeyLoader(String path, int size)
+	throws FileNotFoundException, InputMismatchException {
 
 	Scanner scan = null;
 
@@ -37,14 +37,13 @@ public class KeyLoader {
 	    for(int i = 0 ; i < size ; i++)
 		state[i] = scan.nextDouble();
 
-	    // Read the couplind coefficient
+	    // Read the coupling coefficients
 	    for(int i = 0 ; i < size ; i++)
 		for(int j = 0 ; j < size ; j++)
 		    coupling[i][j] = scan.nextDouble();
 
 	    // Create the instance of the key
-	    key = new Key(new NetworkState(state),
-			  new CouplingMatrix(coupling));
+	    key = new Key(new Vector(state), new Matrix(coupling));
 	} catch (InputMismatchException e) {
 	    throw e;
 	}

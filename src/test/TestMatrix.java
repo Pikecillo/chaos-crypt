@@ -1,21 +1,21 @@
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
-import ccrypt.cmn.CouplingMatrix;
+import ccrypt.cmn.Matrix;
 
-public class TestCouplingMatrix {
+public class TestMatrix {
 
     @Test
     public void testGetSize() {
 	int size = 10;
-	CouplingMatrix cm = new CouplingMatrix(size);
+	Matrix m = new Matrix(size);
 
-	assertTrue(size == cm.getSize());
+	assertTrue(size == m.getSize());
 
 	size = 20;
-	cm = new CouplingMatrix(new double[size][size]);
+	m = new Matrix(new double[size][size]);
 
-	assertTrue(size == cm.getSize());
+	assertTrue(size == m.getSize());
     }
 
     @Test
@@ -26,16 +26,17 @@ public class TestCouplingMatrix {
 	    { 3.1, 3.2, 3.3 }
 	};
 
-	CouplingMatrix cm = new CouplingMatrix(matrix);
+	Matrix m = new Matrix(matrix);
 
 	for(int i = 0; i < matrix.length; i++) {
 	    for(int j = 0; j < matrix[i].length; j++) {
-		assertTrue(matrix[i][j] == cm.getElement(i, j));
+		assertTrue(matrix[i][j] == m.getElement(i, j));
+	 
+		double val = i * 0.1 + j * 0.1;
+		m.setElement(i, j, val);
+
+		assertTrue(m.getElement(i, j) == val);
 	    }
 	}
-
-	cm.setElement(0, 0, 0.1);
-
-	assertTrue(cm.getElement(0, 0) == 0.1);
     }
 }

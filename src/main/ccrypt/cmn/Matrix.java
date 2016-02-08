@@ -1,14 +1,13 @@
 package ccrypt.cmn;
 
 /**
- * Coupling matrix for a coupled map network.
+ * A pretty basic square matrix class.
  */
-public class CouplingMatrix {
+public class Matrix {
 
-    // Size of the network
     private int size;
-    // Array for the coupling coefficients
-    private double matrix[];
+
+    private double elements[];
 
     /**
      * This constructor is for creating instances of a
@@ -18,10 +17,10 @@ public class CouplingMatrix {
      *
      * @param s Size of the square matrix.
      */
-    public CouplingMatrix(int s){
+    public Matrix(int s){
 
 	size = s;
-	matrix = new double[size * size];
+	elements = new double[size * size];
 
 	initialize();
     }
@@ -31,33 +30,54 @@ public class CouplingMatrix {
      * a coupling matrix, whose coefficient are given
      * by array m.
      *
-     * @param m Square matrix of coefficients.
+     * @param m Square elements of coefficients.
      */
-    public CouplingMatrix(double m[][]){
+    public Matrix(double m[][]){
 
 	size = m.length;
-	matrix = new double[size * size];
+	elements = new double[size * size];
 
 	for(int i = 0 ; i < size ; i++)
 	    for(int j = 0 ; j < size ; j++)
-		matrix[i * size + j] = m[i][j];
+		elements[i * size + j] = m[i][j];
     }
 
     /**
-     * Set the element m_{i, j} of the coupling matrix to
-     * a given value.
+     * Multiply the matrix with a given vector.
+     *
+     * @param v A given vector.
+     * @return The result of the multiplication.
+     */
+    public Vector mul(Vector v) {
+	Vector res = new Vector(v.getSize());
+
+	for(int i = 0; i < size; i++) {
+	    double dot = 0.0;
+
+	    for(int j = 0; j < size; j++) {
+		dot += elements[i * size + j] * v.getElement(i);
+	    }
+
+	    res.setElement(i, dot);
+	}
+
+	return res;
+    }
+
+    /**
+     * Set an element of the matrix to a given value.
      *
      * @param i Row index of element.
      * @param j Column index of element.
-     * @param v Element value.
+     * @param v Value of element.
      */
     public void setElement(int i, int j, double v){
 
-	matrix[i * size + j]= v;
+	elements[i * size + j]= v;
     }
 
     /**
-     * Get value of element (i, j) of the matrix.
+     * Get element of the matrix.
      *
      * @param i Row index of element.
      * @param j Column index of element.
@@ -65,11 +85,13 @@ public class CouplingMatrix {
      */
     public double getElement(int i, int j){
 
-	return matrix[i * size + j];
+	return elements[i * size + j];
     }
 
     /**
-     * Get the size of the matrix
+     * Get the size of the matrix.
+     *
+     * @return The size of the matrix.
      */
     public int getSize(){
 
@@ -84,6 +106,7 @@ public class CouplingMatrix {
 
 	for(int i = 0 ; i < size ; i++)
 	    for(int j = 0 ; j < size ; j++)
-		matrix[i * size + j] = 0.01 * ((i + 1) - (double)(j + 1) / 2);
+		elements[i * size + j] =
+		    0.01 * ((i + 1) - (double)(j + 1) / 2);
     }
 }

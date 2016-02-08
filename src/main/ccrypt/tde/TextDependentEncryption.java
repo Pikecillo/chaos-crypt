@@ -1,52 +1,49 @@
 package ccrypt.tde;
 
 import ccrypt.cmn.CoupledMapNetwork;
+import ccrypt.cmn.ChaoticMap;
 import ccrypt.cmn.Maps;
-import ccrypt.cmn.NetworkState;
+import ccrypt.cmn.Vector;
 
-/*
-    Class for performing Text Depenent Encryption
-*/
+/**
+ * Class for performing Text Depenent Encryption
+ */
 public class TextDependentEncryption {
 
     // If set to true dynamic of the coupled map network
-    // should be perturbated at ech time step
+    // should be perturbated at each time step
     private boolean perturb;
     // Coupled map network
     private CoupledMapNetwork cmn;
     // Text Dependent Encryption secret key
     private Key key;
 
-    /*
-	Creates and instance for TDE encryption/decryption
-	using a given key k
-    */
-    public TextDependentEncryption(Key k){
+    /**
+     * Creates an and instance for TDE encryption/decryption
+     * using a given key k
+     */
+    public TextDependentEncryption(Key k) {
 	this(k, false);
     }
 
-    /*
-	Creates and instance for TDE encryption/decryption
-	using a given key k.
-	If the argument perturb is set to true then
-	the coupled map network dynamic should be perturbed
-	externally.
-	By default the local dynamics is given by a logarithmic
-	map
-    */
-    public TextDependentEncryption(Key k, boolean perturb){
+    /**
+     * Creates and instance for TDE encryption/decryption using a given key k.
+     * If the argument perturb is set to true then the coupled map network
+     * dynamic should be perturbed externally.
+     * By default the local dynamics is given by a logarithmic map.
+     */
+    public TextDependentEncryption(Key k, boolean perturb) {
 	this(k, perturb, new Maps.Logarithmic(0.5));
     }
 
-    /*
-	Creates and instance for TDE encryption/decryption
-	using a given key k, and allow to set the local dynamic
-	If the argument perturb is set to true then
-	the coupled map network dynamic should be perturbed
-	externally.
-    */
-    public TextDependentEncryption(Key k, boolean perturb,
-				   Maps.OneDimensionalMap map){
+    /**
+     * Creates and instance for TDE encryption/decryption
+     * using a given key k, and allow to set the local dynamic
+     * If the argument perturb is set to true then
+     * the coupled map network dynamic should be perturbed
+     * externally.
+     */
+    public TextDependentEncryption(Key k, boolean perturb, ChaoticMap map) {
 	key = k;
 	this.perturb = perturb;
 	// Set the coupled map network from the key
@@ -66,22 +63,22 @@ public class TextDependentEncryption {
 	as a sequence of bytes, and the output is an array containing
 	the sequence of integers that encodes the plaintext 
     */
-    public int[] encrypt(byte plaintext[]){
+    public int[] encrypt(byte plaintext[]) {
 
 	int i = 0, iterations = 0;
 	int ciphertext[] = new int[plaintext.length];
 
 	// Load initial state for the coupled map network
-	cmn.loadInitialState();
+	cmn.setState(key.getState());
 
 	// Start generating symbols with the coupled map networs
-	while(i < plaintext.length){
+	while(i < plaintext.length) {
 	    cmn.iterate();
 	    iterations++;
 
 	    // If the generated symbol corresponds to the current
 	    // plaintext symbol
-	    if(binaryState(cmn.getState()) == plaintext[i]){
+	    if(binaryState(cmn.getState()) == plaintext[i]) {
 		// Store the encoding integer in the ciphertext integer
 		// sequence
 		ciphertext[i] = iterations;
@@ -92,7 +89,7 @@ public class TextDependentEncryption {
 		// externally perturbated then do it
 		// The authors of TDE recommend using a perturbation
 		// factor of -1
-		if(perturb) cmn.perturbState(-1);
+		if(perturb) cmn.perturbState(-1.0);
 	    }
 	}
 
@@ -102,15 +99,15 @@ public class TextDependentEncryption {
     /*
 	Perform decryption. This is basically the same
     */
-    public byte [] decrypt(int ciphertext[]){
+    public byte [] decrypt(int ciphertext[]) {
 	
 	byte plaintext[] = new byte[ciphertext.length];
 
 	// Load the initial state of the coupled map network
-	cmn.loadInitialState();
+	cmn.setState(key.getState());
 
 	// For each integer on the ciphertext sequence
-	for(int i = 0 ; i < ciphertext.length ; i++){
+	for(int i = 0 ; i < ciphertext.length ; i++) {
 	    // Iterate the coupled map network for
 	    // the given number of satates
 	    for(int j = 1 ; j <= ciphertext[i] ; j++)
@@ -120,33 +117,34 @@ public class TextDependentEncryption {
 	    plaintext[i]= binaryState(cmn.getState());
 
 	    // If network has to be perturbated then do it
-	    if(perturb) cmn.perturbState(-1);
+	    if(perturb) cmn.perturbState(-1.0);
 	}
 
 	return plaintext;
     }
 
-    /*
-	Converts the state of a coupled map network
-	to a byte
-    */
-    private byte binaryState(NetworkState state){
-
+    /**
+     * Converts the state of a coupled map network to a byte.
+     *
+     * @param state A vector state.
+     * @return A byte obtained from the state.
+     */
+    private byte binaryState(Vector state) {
 	byte c = 0x0;
 	
 	// For each element of the network
-	for(int i = 0 ; i < state.getSize(); i++){
+	for(int i = 0 ; i < state.getSize(); i++) {
 
-	    // If its ith element is positive set
-	    // the ith element of the byte to 1
-	    // This threshold can be any value if
-	    // the local dynamic is given by a logarithmic map.
-	    // For other maps it is not necessary 0, but
-	    // the behaviour of the map should be taken into account
-	    // or there might be symbols forbidden by the dynamics
-	    // of the coupled map network
-	    // The authors of the TDE used this threashold
-	    if(state.getElement(i) > 0)
+	    // If the ith element is positive set the ith element of
+            // the byte to 1, otherwise keep it as 0.
+	    // This threshold can be any value if the local dynamic
+            // is given by a logarithmic map.
+	    // For other maps it is not necessary 0, but the behaviour
+            // of the map should be taken into account or there might
+            // be symbols forbidden by the dynamics of the coupled map
+            // network.
+	    // The authors of the TDE used this threshold
+	    if(state.getElement(i) > 0.0)
 		c |= (1 << i);
 	}
 

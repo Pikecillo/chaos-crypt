@@ -7,8 +7,6 @@ import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.InputMismatchException;
-import ccrypt.cmn.CouplingMatrix;
-import ccrypt.cmn.NetworkState;
 import ccrypt.tde.CiphertextLoader;
 import ccrypt.tde.Key;
 import ccrypt.tde.KeyLoader;

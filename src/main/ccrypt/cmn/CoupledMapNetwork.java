@@ -1,108 +1,81 @@
 package ccrypt.cmn;
 
-/*
-    Representation of a coupled map network
-*/
+/**
+ * A network of coupled chaotic maps.
+ */
 public class CoupledMapNetwork {
 
-    // Size of the network
-    private int size;
-    // Initial state of the network
-    private NetworkState initial;
-    // Current state of the network
-    private NetworkState current;
-    // Last state of the network
-    private NetworkState last;
-    // Coupling matrix
-    private CouplingMatrix coupling;
-    // Local dynamic for elements in the network
-    // it should be a chaotic one dimensional map
-    private Maps.OneDimensionalMap localDynamic;
+    private Vector state;
 
-    /*
-	For creating instances given an initial state and a coupling
-	matrix
-    */
-    public CoupledMapNetwork (NetworkState initial, CouplingMatrix coupling){
+    private Matrix coupling;
+ 
+    private ChaoticMap localDynamic;
 
-	size = initial.getSize();
-	this.initial = initial;
-	this.coupling = coupling;
-	last = new NetworkState(new double[size]);
-	current = new NetworkState(new double[size]);
-    
-	loadInitialState();
+    /**
+     * Create an instance of a couple map network given an initial state,
+     * and a coupling matrix.
+     *
+     * @param s Initial state of the network.
+     * @param c Coupling matrix of the network.
+     */
+    public CoupledMapNetwork(Vector s, Matrix c){
+	state = s;
+	coupling = c;
     }
 
-    /*
-	Sets (resets) the coupled map network to its initial state
-    */
-    public void loadInitialState(){
-
-	for(int i = 0 ; i < initial.getSize() ; i++)
-	    current.setElement(i, initial.getElement(i));
-    }
-
-    /*
-	Sets the local dynamic used by the network
-    */
-    public void setLocalDynamic(Maps.OneDimensionalMap map){
-
+    /**
+     * Set the chaotic map used by the network as local dynamic.
+     *
+     * @param map A given chaotic map.
+     */
+    public void setLocalDynamic(ChaoticMap map){
 	localDynamic = map;
     }
 
-    /*
-	Sets the current network state
-    */
-    public void setState(NetworkState state){
-	
-	current = state;
+    /**
+     * Set the state of the network.
+     * @param s A given state.
+     */
+    public void setState(Vector s){
+	state = s;
     }
 
-    /*
-	Returns the current network state
-    */
-    public NetworkState getState(){
-
-	return current;
+    /**
+     * Get the current state of the network.
+     */
+    public Vector getState(){
+	return state;
     }
 
-    /*
-	Perturbate externally the state of the network
-    */
-    public void perturbState(double v){
-
-	double e;
-
+    /**
+     * Perturbate externally the state of the network. The state of the
+     * network is multiplied by a given factor.
+     *
+     * @param f Perturbation factor.
+     */
+    public void perturbState(double f){
 	// Each element of the network is multiplied by a
 	// perturbation factor
-	for(int i = 0 ; i < size ; i++)
-	    current.setElement(i, current.getElement(i) * v);
+	for(int i = 0; i < state.getSize(); i++)
+	    state.setElement(i, state.getElement(i) * f);
     }
 
-    /*
-	Iterate the network one time step
-    */
-    public void iterate(){
+    /**
+     * Iterate the network one time step.
+     */
+    public void iterate() {
+	// Compute result of global dynamic
+	Vector global = coupling.mul(state);
 
-	// Set current state as the previous
-	for(int i = 0 ; i < size ; i++)
-	    last.setElement(i, current.getElement(i));
+	// Compute result of local dynamic
+	Vector local = new Vector(global.getSize());
 
-	// Set the current value for each element
-	// of the network
-	for(int i = 0 ; i < size ; i++){
-	    double sum = 0;
-
-	    // Calculate global dynamic
-	    for(int j = 0 ; j < size ; j++)
-		sum += (coupling.getElement(i, j) * last.getElement(j));
-
-	    // Calculate local dynamic
-	    double x = localDynamic.function(last.getElement(i));
-
-	    // Set the state of the element to the sum of both values
-	    current.setElement(i, x + sum);
+	for(int i = 0; i < state.getSize(); i++) {
+	    local.setElement(i, localDynamic.eval(state.getElement(i)));
 	}
+	
+	// The new state is the result of adding global and local
+	// contributions
+	state = local.add(global);
     }
 }
