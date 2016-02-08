@@ -5,108 +5,108 @@ package ccrypt.cmn;
  */
 public class Matrix {
 
-    private int size;
+	private int size;
 
-    private double elements[];
+	private double elements[];
 
-    /**
-     * This constructor is for creating instances of a
-     * coupling matrixes of size s, initialized to the
-     * values used on the article describing the
-     * Text Dependet Encryption method.
-     *
-     * @param s Size of the square matrix.
-     */
-    public Matrix(int s){
+	/**
+	 * This constructor is for creating instances of a
+	 * coupling matrixes of size s, initialized to the
+	 * values used on the article describing the
+	 * Text Dependent Encryption method.
+	 *
+	 * @param s Size of the square matrix.
+	 */
+	public Matrix(int s){
 
-	size = s;
-	elements = new double[size * size];
+		size = s;
+		elements = new double[size * size];
 
-	initialize();
-    }
-
-    /**
-     * This constructor is for creating instances of
-     * a coupling matrix, whose coefficient are given
-     * by array m.
-     *
-     * @param m Square elements of coefficients.
-     */
-    public Matrix(double m[][]){
-
-	size = m.length;
-	elements = new double[size * size];
-
-	for(int i = 0 ; i < size ; i++)
-	    for(int j = 0 ; j < size ; j++)
-		elements[i * size + j] = m[i][j];
-    }
-
-    /**
-     * Multiply the matrix with a given vector.
-     *
-     * @param v A given vector.
-     * @return The result of the multiplication.
-     */
-    public Vector mul(Vector v) {
-	Vector res = new Vector(v.getSize());
-
-	for(int i = 0; i < size; i++) {
-	    double dot = 0.0;
-
-	    for(int j = 0; j < size; j++) {
-		dot += elements[i * size + j] * v.getElement(i);
-	    }
-
-	    res.setElement(i, dot);
+		initialize();
 	}
 
-	return res;
-    }
+	/**
+	 * This constructor is for creating instances of
+	 * a coupling matrix, whose coefficient are given
+	 * by array m.
+	 *
+	 * @param m Square elements of coefficients.
+	 */
+	public Matrix(double m[][]){
 
-    /**
-     * Set an element of the matrix to a given value.
-     *
-     * @param i Row index of element.
-     * @param j Column index of element.
-     * @param v Value of element.
-     */
-    public void setElement(int i, int j, double v){
+		size = m.length;
+		elements = new double[size * size];
 
-	elements[i * size + j]= v;
-    }
+		for(int i = 0 ; i < size ; i++)
+			for(int j = 0 ; j < size ; j++)
+				elements[i * size + j] = m[i][j];
+	}
 
-    /**
-     * Get element of the matrix.
-     *
-     * @param i Row index of element.
-     * @param j Column index of element.
-     * @return Value of element.
-     */
-    public double getElement(int i, int j){
+	/**
+	 * Multiply the matrix with a given vector.
+	 *
+	 * @param v A given vector.
+	 * @return The result of the multiplication.
+	 */
+	public Vector mul(Vector v) {
+		Vector res = new Vector(v.getSize());
 
-	return elements[i * size + j];
-    }
+		for(int i = 0; i < size; i++) {
+			double dot = 0.0;
 
-    /**
-     * Get the size of the matrix.
-     *
-     * @return The size of the matrix.
-     */
-    public int getSize(){
+			for(int j = 0; j < size; j++) {
+				dot += elements[i * size + j] * v.getElement(j);
+			}
 
-	return size;
-    }
+			res.setElement(i, dot);
+		}
 
-    /**
-     *	Initializes the coefficients to those
-     *	of the article describing the Text Dependent Encryption.
-     */
-    private void initialize(){
+		return res;
+	}
 
-	for(int i = 0 ; i < size ; i++)
-	    for(int j = 0 ; j < size ; j++)
-		elements[i * size + j] =
-		    0.01 * ((i + 1) - (double)(j + 1) / 2);
-    }
+	/**
+	 * Set an element of the matrix to a given value.
+	 *
+	 * @param i Row index of element.
+	 * @param j Column index of element.
+	 * @param v Value of element.
+	 */
+	public void setElement(int i, int j, double v){
+
+		elements[i * size + j]= v;
+	}
+
+	/**
+	 * Get element of the matrix.
+	 *
+	 * @param i Row index of element.
+	 * @param j Column index of element.
+	 * @return Value of element.
+	 */
+	public double getElement(int i, int j){
+
+		return elements[i * size + j];
+	}
+
+	/**
+	 * Get the size of the matrix.
+	 *
+	 * @return The size of the matrix.
+	 */
+	public int getSize(){
+
+		return size;
+	}
+
+	/**
+	 *	Initializes the coefficients to those
+	 *	of the article describing the Text Dependent Encryption.
+	 */
+	private void initialize(){
+
+		for(int i = 0 ; i < size ; i++)
+			for(int j = 0 ; j < size ; j++)
+				elements[i * size + j] =
+				0.01 * ((i + 1) - (double)(j + 1) / 2);
+	}
 }
