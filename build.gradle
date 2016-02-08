@@ -9,6 +9,8 @@ jar {
 
     manifest {
     	 attributes 'Main-Class': 'ccrypt.CCryptMain'
+	 attributes 'Implementation-Title': 'chaos-crypt'
+	 attributes 'Implementation-Version': '0.1'
     }
 }
 
@@ -18,4 +20,10 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+task distTask(type: Copy) {
+    from 'build/libs'
+    into 'ccrypt-dist/libs'
+    include '**/*.jar'
 }

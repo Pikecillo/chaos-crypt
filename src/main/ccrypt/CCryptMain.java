@@ -164,7 +164,7 @@ class CCryptMain {
 	 */
 	private static void usage(){
 		String message =
-				"\nTDE usage: java TDE mode key input output [perturb]\n" +
+				"\nUsage: ./ccrypt mode key input output [perturb]\n" +
 						"\tmode --> (e | d)\n" +
 						"\tkey  --> path to key file\n" +
 						"\t\te: encrypt\n" +

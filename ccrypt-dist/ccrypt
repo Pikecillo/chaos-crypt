@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -jar libs/ccrypt.jar $@
