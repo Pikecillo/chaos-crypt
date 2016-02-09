@@ -22,8 +22,29 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
-task distTask(type: Copy) {
+def distDirname = 'ccrypt-dist'
+def jarDistDirname = 'libs'
+def scriptName = 'ccrypt'
+
+task copyJar(type: Copy, dependsOn: build) {
     from 'build/libs'
-    into 'ccrypt-dist/libs'
+    into "$distDirname/$jarDistDirname"
     include '**/*.jar'
+}
+
+task buildDist(dependsOn: copyJar) {
+     // Check if dist folder exists, and create it if not
+     def distDir = new File(distDirname)
+     if(!distDir.exists()) {  
+         distDir.mkdirs()
+     }
+
+     def pw = new PrintWriter("$distDirname/$scriptName")
+     pw.println('#!/bin/sh')
+     pw.println("java -jar $jarDistDirname/ccrypt.jar \$@")
+     pw.close()
+}
+
+task cleanDist(type:Delete, dependsOn: clean) {
+     delete distDirname
 }
