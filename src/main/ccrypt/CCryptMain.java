@@ -1,3 +1,24 @@
+/*======================================================================
+ 
+ Copyright (C) 2009-2015. Mario Rincon-Nigro.
+
+ This file is a part of Chaos-Crypt.
+
+ This is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ Chaos-Crypt is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with Chaos-Crypt.  If not, see <http://www.gnu.org/licenses/>.
+
+======================================================================*/
+
 package ccrypt;
 
 import java.io.BufferedWriter;
@@ -7,7 +28,6 @@ import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.InputMismatchException;
-import ccrypt.tde.CiphertextLoader;
 import ccrypt.tde.Key;
 import ccrypt.tde.KeyLoader;
 import ccrypt.tde.TextLoader;
@@ -73,7 +93,11 @@ class CCryptMain {
 	}
 
 	// Write result to output file
-	writeBytesToFile(outputFilename, outputText);
+	try{
+	    (new FileOutputStream(outputFilename)).write(outputText);
+	} catch(IOException e) {
+	    exitWithErrorMessage(OUTPUT, outputFilename);
+	}
     }
     
     /**
@@ -167,20 +191,5 @@ class CCryptMain {
 	    "\toutput --> output ciphertext/plaintext filename\n";
 	
 	System.err.println(message);
-    }
-    
-    /**
-     * Writes the content of an array of bytes to a file
-     */
-    private static void writeBytesToFile(String name, byte content[]){
-	
-	FileOutputStream output;
-	
-	try{
-	    output = new FileOutputStream(name);
-	    output.write(content);
-	} catch(IOException e) {
-	    exitWithErrorMessage(OUTPUT, name);
-	}
     }
 }
