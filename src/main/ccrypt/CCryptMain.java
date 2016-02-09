@@ -15,200 +15,172 @@ import ccrypt.tde.TextDependentEncryption;
 
 class CCryptMain {
 
-	// Perturbate option
-	private static boolean perturbate;
-	// Path to the key
-	private static String keypath;
-	// Mode (encryption/decryption)
-	private static String mode;
-	// Path to ciphertext file
-	private static String inputfile;
-	// Path to output file
-	private static String outputfile;
-	// Error numbers
-	private final static int KEY_NOT_FOUND = 0;
-	private final static int INPUT_NOT_FOUND = 1;
-	private final static int MALFORMED_KEY = 2;
-	private final static int OUTPUT = 3;
-	private final static int ARGUMENTS = 4;
-	private final static int CORRUPTED_CIPHERTEXT = 5;
-	private final static int UNEXPECTED = 6;
+    private static String mode;
+    
+    private static String keyFilename;
 
-	public static void main(String args[]){
+    private static String inputFilename;
 
-		KeyLoader keyLoader = null;
+    private static String outputFilename;
 
-		parseArguments(args);
-
-		// Handle key file not found
-		try{
-			keyLoader = new KeyLoader(keypath, 8);
-		} catch(FileNotFoundException e){
-			errorMessage(KEY_NOT_FOUND, keypath);
-		} catch(InputMismatchException e) {
-			errorMessage(MALFORMED_KEY, "");
-		}
-
-		Key key = keyLoader.getKey();
-		TextDependentEncryption tde =
-				new TextDependentEncryption(key, perturbate);
-		FileInputStream input = null;
-
-		// Handle input file not found
-		try {
-			input = new FileInputStream(inputfile);
-		} catch(FileNotFoundException f) {
-			errorMessage(INPUT_NOT_FOUND, "filepath");
-		}
-
-		if(mode.compareTo("e") == 0){
-			try {
-				TextLoader pl = new TextLoader(input);
-				byte plaintext[] = pl.getText();
-
-				writeBytesToFile(outputfile, tde.encrypt(plaintext));
-			} catch (Exception e) {
-				errorMessage(UNEXPECTED, "");
-			}
-		}
-
-		if(mode.compareTo("d") == 0){
-			TextLoader cl = null;
-
-			try{
-				cl = new TextLoader(input);
-				byte ciphertext[] = cl.getText();
-
-				writeBytesToFile(outputfile, tde.decrypt(ciphertext));
-			} catch(Exception e){
-				errorMessage(UNEXPECTED, "");
-			}
-		}
+    private final static int KEY_NOT_FOUND = 0;
+    private final static int FILE_NOT_FOUND = 1;
+    private final static int MALFORMED_KEY = 2;
+    private final static int OUTPUT = 3;
+    private final static int ARGUMENTS = 4;
+    private final static int CORRUPTED_CIPHERTEXT = 5;
+    private final static int INVALID_MODE = 6;
+    private final static int UNEXPECTED = 7;
+    
+    public static void main(String args[]) {
+	
+	parseArguments(args);
+	
+	KeyLoader keyLoader = null;
+	
+	// Load the key
+	try {
+	    keyLoader = new KeyLoader(keyFilename, 8);
+	} catch(FileNotFoundException e) {
+	    exitWithErrorMessage(KEY_NOT_FOUND, keyFilename);
+	} catch(InputMismatchException e) {
+	    exitWithErrorMessage(MALFORMED_KEY, "");
+	}
+	
+	TextDependentEncryption tde =
+	    new TextDependentEncryption(keyLoader.getKey());
+	byte inputText[] = null;
+	
+	// Load input text
+	try {
+	    FileInputStream inputStream = new FileInputStream(inputFilename);
+	    inputText = (new TextLoader(inputStream)).getText();
+	    
+	} catch(FileNotFoundException e) {
+	    exitWithErrorMessage(FILE_NOT_FOUND, inputFilename);
+	} catch(IOException e) {
+	    exitWithErrorMessage(UNEXPECTED, inputFilename);
+	}
+	
+	// Perform encryption/decryption
+	
+	byte outputText[] = null;
+	if(mode.compareTo("e") == 0) {
+	    outputText = tde.encrypt(inputText);
+	}
+	else {
+	    outputText = tde.decrypt(inputText);
 	}
 
-	/**
-	 * Reads the argument and sets the environment for TDE
-	 */
-	private static void parseArguments(String args[]){
+	// Write result to output file
+	writeBytesToFile(outputFilename, outputText);
+    }
+    
+    /**
+     * Reads the argument and sets the environment for TDE
+     */
+    private static void parseArguments(String args[]){
+	
+	if(args.length == 0)
+	    exit(true);
 
-		// If wrong number of parameters
-		if(args.length < 4 || args.length > 6)
-			errorMessage(ARGUMENTS, "");
+	// If wrong number of parameters
+	if(args.length != 4)
+	    exitWithErrorMessage(ARGUMENTS, "");
+	
+	mode = args[0];
+	keyFilename = args[1];
+	inputFilename = args[2];
+	outputFilename = args[3];
+	
+	// If wrong mode parameter
+	if(mode.compareTo("d") != 0 && mode.compareTo("e") != 0)
+	    exitWithErrorMessage(INVALID_MODE, mode);
+    }
+    
+    /**
+     * Shows usage and stops execution
+     */
+    private static void exit(boolean showUsage) {
+	
+	if(showUsage) usage();
+	
+	System.exit(0);
+    }
+    
+    /**
+     * Shows error messages
+     */
+    private static void exitWithErrorMessage(int error, String additional) {
+	boolean showUsage = false;
+	String message;
 
-		mode = args[0];
-		keypath = args[1];
-		inputfile = args[2];
-		outputfile = args[3];
-		perturbate = false;
+	switch(error) {
 
-		// If wrong mode parameter
-		if(mode.compareTo("d") != 0 && mode.compareTo("e") != 0)
-			abortTDE(true);
+	case INVALID_MODE:
+	    message = "Error - Invalid mode: ";
+	    showUsage = true;
+	    break;
 
-		// If perturb parameter given
-		if(args.length == 5){
+	case KEY_NOT_FOUND:
+	    message = "Error - Key not found: ";
+	    break;
 
-			// If wrong perturb parameter
-			if(args[4].compareTo("1") != 0)
-				abortTDE(true);
+	case FILE_NOT_FOUND:
+	    message = "Error - Input file not found: ";
+	    break;
 
-			perturbate = true;
-		}
+	case MALFORMED_KEY:
+	    message = "Error - Malformed key";
+	    break;
+
+	case OUTPUT:
+	    message = "Error - Unable to write file: ";
+	    break;
+
+	case ARGUMENTS:
+	    message = "Error - Some input arguments are missing";
+	    showUsage = true;
+	    break;
+
+	default:
+	    message = "Error - Unexpected termination";
+	    break;
 	}
 
-	/**
-	 * Shows usage and stops execution
-	 */
-	private static void abortTDE(boolean showUsage){
-
-		if(showUsage) usage();
-
-		System.exit(0);
-	}
-
-	/**
-	 * Shows error messages
-	 */
-	private static void errorMessage(int error, String additional){
-
-		boolean showUsage = false;
-
-		if(error == KEY_NOT_FOUND)
-			System.err.println("\nTDE ERROR Key file not found: "
-					+ additional + "\n");
-
-		if(error == INPUT_NOT_FOUND)
-			System.err.println("\nTDE ERROR Input file not found: "
-					+ additional + "\n");
-
-		if(error == MALFORMED_KEY)
-			System.err.println("\nTDE ERROR Malformed key\n");
-
-		if(error == UNEXPECTED)
-			System.err.println("\nTDE ERROR Unexpected termination\n");
-
-		if(error == OUTPUT)
-			System.err.println("\nTDE ERROR Unable to write file: "
-					+ additional + "\n");
-
-		if(error == ARGUMENTS){
-			System.err.println("\nTDE ERROR Wrong number of arguments\n");
-			showUsage = true;
-		}
-
-		abortTDE(showUsage);
-	}
-
-	/**
+	System.err.println(message + additional);
+	
+	exit(showUsage);
+    }
+    
+    /**
      * Prints TDE usage
-	 */
-	private static void usage(){
-		String message =
-				"\nUsage: ./ccrypt mode key input output [perturb]\n" +
-						"\tmode --> (e | d)\n" +
-						"\tkey  --> path to key file\n" +
-						"\t\te: encrypt\n" +
-						"\t\td: decrypt\n" +
-						"\tinput --> full path to input plaintext/ciphertext file\n" +
-						"\toutput --> full path to output ciphertext/plaintext file\n" +
-						"\tperturb (optional) --> 1\n" +
-						"Note: if encryption is performed with the perturbate\n" +
-						"option on, then decryption must be performed with the\n" +
-						"perturbation option on as well\n";
-		System.err.println(message);
-	}
-
-	/**
+     */
+    private static void usage(){
+	String message =
+	    "\nUsage: ./ccrypt mode key input output\n" +
+	    "\tmode --> (e | d)\n" +
+	    "\t\te: encrypt\n" +
+	    "\t\td: decrypt\n" +
+	    "\tkey  --> path to key file\n" +
+	    "\tinput --> input plaintext/ciphertext filename\n" +
+	    "\toutput --> output ciphertext/plaintext filename\n";
+	
+	System.err.println(message);
+    }
+    
+    /**
      * Writes the content of an array of bytes to a file
-	 */
-	private static void writeBytesToFile(String name, byte content[]){
-
-		FileOutputStream output;
-
-		try{
-			output = new FileOutputStream(name);
-			output.write(content);
-		} catch(IOException e) {
-			errorMessage(OUTPUT, name);
-		}
+     */
+    private static void writeBytesToFile(String name, byte content[]){
+	
+	FileOutputStream output;
+	
+	try{
+	    output = new FileOutputStream(name);
+	    output.write(content);
+	} catch(IOException e) {
+	    exitWithErrorMessage(OUTPUT, name);
 	}
-
-	/**
-	 * Writes the contnt of an array of integers to a file
-	 */
-	private static void writeIntegersToFile(String name, int content[]){
-
-		BufferedWriter out;
-
-		try {
-			out = new BufferedWriter(new FileWriter(name));
-
-			for(int i = 0 ; i < content.length ; i++)
-				out.write(Integer.toString(content[i]) + "\n");
-
-			out.close();
-		} catch (IOException e) {
-			errorMessage(OUTPUT, name);
-		}
-	}
+    }
 }
