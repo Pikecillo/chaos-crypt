@@ -17,27 +17,25 @@ To decrypt it run
 
 A copy of Sun Tzu's The Art of War, and a copy of the original paper where
 the method is described, can be found (encrypted) in folder
-res/cipher-text. To decrypt them use key res/keys/KEY1 (or was it KEY2?)
-as well.
+res/cipher-text. To decrypt them use key res/keys/KEY1 as well (or was it KEY2?).
 
-### To anyone who might intend to use **ccrypt** for anything other than mere intellectual curiosity
+### To anyone who might want to use **ccrypt** for anything other than mere intellectual curiosity
 
 - Use it for a good purpose. Don't be evil.
 - I would bet you (unless you are [Bruce Schneier]
 (https://www.schneierfacts.com/)) $50 bucks you cannot break the encryption.
-However. I don't know about any thorough analysis of the strength of the
+However. I don't know about any thorough study on the strength of the
 cryptosystem, so that's something to keep in mind.
-- Last but not least some caveats:
-    - The size of the generated ciphertext is twice as large as the size of
-    the plaintext.
+- Last but not least, some caveats:
+    - The generated ciphertext is twice as large as the plaintext.
     - It seems to me there is no absolute guarantee that *any* piece of
     plaintext can be encrypted with the **ccrypt** implementation (anything
-    that hass been encrypted can be brought back, but not everything can be
+    that has been encrypted can be brought back, but not everything can be
     encrypted). Theoretically, it is possible. But then again,
-    theoretically, there would be no bound to the size of the ciphertext
-    might.
-    - The following is true of the method: decrypt(encrypt(M)) = M.
-    But the following is not necessarily true: encrypt(decrypt(M)) = M
+    theoretically, there would be no bound to the size the ciphertext
+    might have.
+    - The following is true of the method: *decrypt(encrypt(M)) = M*.
+    But the following is not necessarily true: *encrypt(decrypt(M)) = M*.
     - The method is slow.
 
 Please report any bugs to: mario.rincon.nigro@gmail.com
