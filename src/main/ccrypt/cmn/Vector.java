@@ -36,10 +36,8 @@ public class Vector {
      */
     public Vector(int size){
 	elements = new double[size];
-	
-	initialize();
     }
-    
+
     /**
      * Create a vector given an array of doubles.
      *
@@ -127,19 +125,5 @@ public class Vector {
      */
     public int getSize() {
 	return elements.length;
-    }
-    
-    /**
-     * Initializes the element of the networks.
-     * This values are the ones used in the article describing the
-     * Text Dependent Encryption method.
-     * This initial values were arbitrary. The initial state of the network
-     * can be initialize to any value whitout affecting the effectiveness
-     * of the TDE.
-     */
-    private void initialize() {
-	
-	for(int i = 0 ; i < elements.length ; i++)
-	    elements[i] = 1.0 + 0.1 * (i + 1);
     }
 }

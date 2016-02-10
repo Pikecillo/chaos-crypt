@@ -41,24 +41,38 @@ public class Matrix {
     public Matrix(int s) {
 	size = s;
 	elements = new double[size * size];
-	
-	initialize();
     }
-    
+
     /**
      * This constructor is for creating instances of
      * a coupling matrix, whose coefficient are given
      * by array m.
      *
-     * @param m Square elements of coefficients.
+     * @param m Array holding elements in row-major order.
      */
     public Matrix(double m[][]) {
 	size = m.length;
 	elements = new double[size * size];
 	
-	for(int i = 0 ; i < size ; i++)
-	    for(int j = 0 ; j < size ; j++)
+	for(int i = 0; i < size; i++)
+	    for(int j = 0; j < size; j++)
 		elements[i * size + j] = m[i][j];
+    }
+
+    /**
+     * This constructor is for creating instances of
+     * a coupling matrix, whose coefficient are given
+     * by array m.
+     *
+     * @param m Array holding elements in row-major order.
+     * @param s Size of the square matrix.
+     */
+    public Matrix(double m[], int s) {
+	size = s;
+	elements = new double[size * size];
+	
+	for(int i = 0; i < elements.length; i++)
+		elements[i] = m[i];
     }
     
     /**
@@ -104,6 +118,15 @@ public class Matrix {
     public double getElement(int i, int j) {
 	return elements[i * size + j];
     }
+
+    /**
+     * Get elements in an array.
+     *
+     * @return An array with the elements in row-major order. 
+     */
+    public double[] getElements() {
+	return elements;
+    }
     
     /**
      * Get the size of the matrix.
@@ -112,17 +135,5 @@ public class Matrix {
      */
     public int getSize() {
 	return size;
-    }
-    
-    /**
-     *	Initializes the coefficients to those
-     *	of the article describing the Text Dependent Encryption.
-     */
-    private void initialize() {
-	
-	for(int i = 0 ; i < size ; i++)
-	    for(int j = 0 ; j < size ; j++)
-		elements[i * size + j] =
-		    0.01 * ((i + 1) - (double)(j + 1) / 2);
     }
 }

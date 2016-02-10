@@ -21,6 +21,8 @@
 
 package ccrypt.tde;
 
+import javax.xml.bind.DatatypeConverter;
+
 import ccrypt.cmn.Matrix;
 import ccrypt.cmn.Vector;
 
@@ -28,12 +30,12 @@ import ccrypt.cmn.Vector;
  * Key for the Text Dependent Encryption method. Basically the aggregation
  * of a state vector and a coupling matrix of a coupled map network.
  */
-public class Key{
+public class Key {
     
     private Vector initialState;
     
     private Matrix couplingMatrix;
-    
+
     /**
      * Create an instance of the key.
      *
@@ -42,12 +44,38 @@ public class Key{
      * @param coupling Matrix representing the coupling of elements in
      *        a coupled map network. 
      */
-    public Key(Vector state, Matrix coupling){
-	
+    public Key(Vector state, Matrix coupling) {
 	initialState = state;
 	couplingMatrix = coupling;
     }
-    
+
+    /**
+     * Create a key from a hex string representation.
+     *
+     * @param keyHexString A hex string representation of a key.
+     */
+    public Key(String keyHexString) {
+	int size = 8;
+	int stateLength = size * 16; // Amount of hex digits for state
+
+	String state = keyHexString.substring(0, stateLength);
+	String coupling = keyHexString.substring(stateLength + 1);
+
+	initialState = new Vector(HexStringCodec.fromHexString(state));
+	couplingMatrix = new Matrix(HexStringCodec.fromHexString(coupling),
+				    size);
+    }
+
+    /**
+     * Convert the key into a hex string.
+     *
+     * @return Hex string representation of the key.
+     */
+    public String toString() {
+	return HexStringCodec.toHexString(initialState.getElements()) +
+	    HexStringCodec.toHexString(couplingMatrix.getElements());
+    }
+
     /**
      * Get the coupling matrix.
      *

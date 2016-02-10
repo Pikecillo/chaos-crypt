@@ -36,11 +36,12 @@ public class KeyLoader {
     // The laoded key
     private Key key;
     
-    /*
-      For creating instances of a key loader.
-      path is the path to the KEY file.
-      The network associated to the key has the
-      size indicated by the second argument
+    /**
+     * Create a key loader.
+     *
+     * @param path Path to the key file.
+     * The network associated to the key has the
+     * size indicated by the second argument
     */
     public KeyLoader(String path, int size)
 	throws FileNotFoundException, InputMismatchException {
