@@ -57,9 +57,8 @@ public class Key {
     public Key(String keyHexString) {
 	int size = 8;
 	int stateLength = size * 16; // Amount of hex digits for state
-
 	String state = keyHexString.substring(0, stateLength);
-	String coupling = keyHexString.substring(stateLength + 1);
+	String coupling = keyHexString.substring(stateLength);
 
 	initialState = new Vector(HexStringCodec.fromHexString(state));
 	couplingMatrix = new Matrix(HexStringCodec.fromHexString(coupling),

@@ -55,7 +55,10 @@ public class HexStringCodec {
      */
     public static double[] fromHexString(String hexString) {
 	byte bytes[] = DatatypeConverter.parseHexBinary(hexString);
+	double doubles[] = new double[bytes.length >> 3];
 
-	return ByteBuffer.wrap(bytes).asDoubleBuffer().array();
+	ByteBuffer.wrap(bytes).asDoubleBuffer().get(doubles);
+
+	return doubles;
     }
 }

@@ -1,6 +1,4 @@
 #TODO
 
-- Make a keygen. Something that automatically generate keys appropriate
-for the TDE, and outputs them in a file MD5-style (not a bunch of floats
-but some nice printable encoded characters).
+- Validate that input string is valid in Key(String s).
 - Make it faster.
