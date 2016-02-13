@@ -1,4 +1,12 @@
 #TODO
 
+- Make KeyLoader write/read key from file with 72 hex-symboles per line.
+- Re-enable perturbation option during key gen.
+- Validate format of input file in KeyLoader.
 - Validate that input string is valid in Key(String s).
-- Make it faster.
+- Validate that input cipher-text is valid (size is even).
+- Improve argument parsing, and feed-back messages.
+- Handle gracefully case of over|underflow during encryption.
+- Thorough testing.
+- Make TDE encryption/decryption faster.
+- Implement other crypto-systems.
