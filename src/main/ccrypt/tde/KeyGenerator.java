@@ -1,5 +1,5 @@
 /*======================================================================
- 
+
  Copyright (C) 2009-2015. Mario Rincon-Nigro.
 
  This file is a part of Chaos-Crypt.
@@ -29,23 +29,19 @@ import ccrypt.cmn.Matrix;
  * Generator of random TDE keys.
  */
 public class KeyGenerator {
-    
+
     /**
      * Creates a randomly generated TDE key. All elements
      * of the initial state and coupling are uniformly distributed
-     * between 0.0 and 1.0.
+     * between -0.05 and 0.05.
      *
      * @return Random TDE key.
      */
     public static Key create() {
-	int keySize = (8 + 64) * 8; // 576 bytes
-	byte randomBytes[] = new byte[keySize];
-	SecureRandom secureRandom = new SecureRandom();
+        Vector state = new Vector(KeyGenerator.randomDoubles(8));
+        Matrix coupling = new Matrix(KeyGenerator.randomDoubles(64), 8);
 
-	Vector state = new Vector(KeyGenerator.randomDoubles(8));
-	Matrix coupling = new Matrix(KeyGenerator.randomDoubles(64), 8);
-
-	return new Key(state, coupling);
+        return new Key(state, coupling);
     }
 
     /**
@@ -55,13 +51,15 @@ public class KeyGenerator {
      * @return An array of random doubles.
      */
     private static double[] randomDoubles(int size) {
-	double array[] = new double[size];
-	SecureRandom secureRandom = new SecureRandom();
+        double array[] = new double[size];
+        SecureRandom secureRandom = new SecureRandom();
 
-	for(int i = 0; i < size; i++) {
-	    array[i] = secureRandom.nextDouble();
-	}
+        for(int i = 0; i < size; i++) {
+            // Note with larger values (even [-1.0, 0.0]) floating
+            // point arithmetic overflows.
+            array[i] = 0.1 * secureRandom.nextDouble() - 0.05;
+        }
 
-	return array;
+        return array;
     }
 }

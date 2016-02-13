@@ -1,5 +1,5 @@
 /*======================================================================
- 
+
  Copyright (C) 2009-2015. Mario Rincon-Nigro.
 
  This file is a part of Chaos-Crypt.
@@ -25,7 +25,7 @@ package ccrypt;
  * A symmetric cipher interface
  */
 public interface SymmetricCipher {
-    
+
     /**
      * This method should implement encryption. This method should
      * be the inverse of decrypt.

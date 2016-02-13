@@ -1,5 +1,5 @@
 /*======================================================================
- 
+
  Copyright (C) 2009-2015. Mario Rincon-Nigro.
 
  This file is a part of Chaos-Crypt.
@@ -25,11 +25,11 @@ package ccrypt.cmn;
  * A pretty basic square matrix class.
  */
 public class Matrix {
-    
+
     private int size;
-    
+
     private double elements[];
-    
+
     /**
      * This constructor is for creating instances of a
      * coupling matrixes of size s, initialized to the
@@ -39,8 +39,8 @@ public class Matrix {
      * @param s Size of the square matrix.
      */
     public Matrix(int s) {
-	size = s;
-	elements = new double[size * size];
+        size = s;
+        elements = new double[size * size];
     }
 
     /**
@@ -51,12 +51,12 @@ public class Matrix {
      * @param m Array holding elements in row-major order.
      */
     public Matrix(double m[][]) {
-	size = m.length;
-	elements = new double[size * size];
-	
-	for(int i = 0; i < size; i++)
-	    for(int j = 0; j < size; j++)
-		elements[i * size + j] = m[i][j];
+        size = m.length;
+        elements = new double[size * size];
+
+        for(int i = 0; i < size; i++)
+            for(int j = 0; j < size; j++)
+                elements[i * size + j] = m[i][j];
     }
 
     /**
@@ -68,13 +68,13 @@ public class Matrix {
      * @param s Size of the square matrix.
      */
     public Matrix(double m[], int s) {
-	size = s;
-	elements = new double[size * size];
-	
-	for(int i = 0; i < elements.length; i++)
-		elements[i] = m[i];
+        size = s;
+        elements = new double[size * size];
+
+        for(int i = 0; i < elements.length; i++)
+            elements[i] = m[i];
     }
-    
+
     /**
      * Multiply the matrix with a given vector.
      *
@@ -82,21 +82,21 @@ public class Matrix {
      * @return The result of the multiplication.
      */
     public Vector mul(Vector v) {
-	Vector res = new Vector(v.getSize());
-	
-	for(int i = 0; i < size; i++) {
-	    double dot = 0.0;
-	    
-	    for(int j = 0; j < size; j++) {
-		dot += elements[i * size + j] * v.getElement(j);
-	    }
-	    
-	    res.setElement(i, dot);
-	}
-	
-	return res;
+        Vector res = new Vector(v.getSize());
+
+        for(int i = 0; i < size; i++) {
+            double dot = 0.0;
+
+            for(int j = 0; j < size; j++) {
+                dot += elements[i * size + j] * v.getElement(j);
+            }
+
+            res.setElement(i, dot);
+        }
+
+        return res;
     }
-    
+
     /**
      * Set an element of the matrix to a given value.
      *
@@ -105,9 +105,9 @@ public class Matrix {
      * @param v Value of element.
      */
     public void setElement(int i, int j, double v) {
-	elements[i * size + j]= v;
+        elements[i * size + j]= v;
     }
-    
+
     /**
      * Get element of the matrix.
      *
@@ -116,7 +116,7 @@ public class Matrix {
      * @return Value of element.
      */
     public double getElement(int i, int j) {
-	return elements[i * size + j];
+        return elements[i * size + j];
     }
 
     /**
@@ -125,15 +125,15 @@ public class Matrix {
      * @return An array with the elements in row-major order. 
      */
     public double[] getElements() {
-	return elements;
+        return elements;
     }
-    
+
     /**
      * Get the size of the matrix.
      *
      * @return The size of the matrix.
      */
     public int getSize() {
-	return size;
+        return size;
     }
 }

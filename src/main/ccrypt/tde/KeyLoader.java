@@ -1,5 +1,5 @@
 /*======================================================================
- 
+
  Copyright (C) 2009-2015. Mario Rincon-Nigro.
 
  This file is a part of Chaos-Crypt.
@@ -21,61 +21,39 @@
 
 package ccrypt.tde;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import ccrypt.cmn.Vector;
-import ccrypt.cmn.Matrix;
+import java.io.IOException;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 
 /**
- * Loader of a Text Dependent Encryption method key.
+ * Reader and writer of TDE keys.
  */
 public class KeyLoader {
-    
-    // The laoded key
-    private Key key;
-    
+
     /**
-     * Create a key loader.
+     * Reads a TDE key from a file.
      *
-     * @param path Path to the key file.
-     * The network associated to the key has the
-     * size indicated by the second argument
-    */
-    public KeyLoader(String path, int size)
-	throws FileNotFoundException, InputMismatchException {
-	
-	Scanner scan = null;
-	
-	double state[] = new double[size];
-	double coupling[][] = new double[size][size];
-	
-	// Create an instance of a scanner for reading the file
-	scan = new Scanner(new File(path));
-	
-	try {
-	    // Read the initial state of the network
-	    for(int i = 0 ; i < size ; i++)
-		state[i] = scan.nextDouble();
-	    
-	    // Read the coupling coefficients
-	    for(int i = 0 ; i < size ; i++)
-		for(int j = 0 ; j < size ; j++)
-		    coupling[i][j] = scan.nextDouble();
-	    
-	    // Create the instance of the key
-	    key = new Key(new Vector(state), new Matrix(coupling));
-	    
-	    scan.close();
-	} catch (InputMismatchException e) {
-	    scan.close();
-	    
-	    throw e;
-	}
+     * @param inputFilename Name of input file.
+     * @return The key.
+     */
+    public static Key read(String inputFilename) throws IOException {
+        byte[] bytes = Files.readAllBytes(Paths.get(inputFilename));
+        return new Key(new String(bytes, StandardCharsets.US_ASCII));
     }
-    
-    public Key getKey(){
-	return key;
+
+    /**
+     * Write a TDE key to a file.
+     *
+     * @param key The key.
+     * @param outputFilename Name of output file.
+     */
+    public static void write(Key key, String outputFilename)
+            throws IOException {
+        FileOutputStream output = new FileOutputStream(outputFilename);
+        
+        output.write(key.toString().toLowerCase().getBytes());
+        output.close();
     }
 }

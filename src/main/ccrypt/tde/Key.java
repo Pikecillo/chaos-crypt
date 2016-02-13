@@ -1,5 +1,5 @@
 /*======================================================================
- 
+
  Copyright (C) 2009-2015. Mario Rincon-Nigro.
 
  This file is a part of Chaos-Crypt.
@@ -31,9 +31,9 @@ import ccrypt.cmn.Vector;
  * of a state vector and a coupling matrix of a coupled map network.
  */
 public class Key {
-    
+
     private Vector initialState;
-    
+
     private Matrix couplingMatrix;
 
     /**
@@ -45,8 +45,8 @@ public class Key {
      *        a coupled map network. 
      */
     public Key(Vector state, Matrix coupling) {
-	initialState = state;
-	couplingMatrix = coupling;
+        initialState = state;
+        couplingMatrix = coupling;
     }
 
     /**
@@ -55,14 +55,14 @@ public class Key {
      * @param keyHexString A hex string representation of a key.
      */
     public Key(String keyHexString) {
-	int size = 8;
-	int stateLength = size * 16; // Amount of hex digits for state
-	String state = keyHexString.substring(0, stateLength);
-	String coupling = keyHexString.substring(stateLength);
+        int size = 8;
+        int stateLength = size * 16; // Amount of hex digits for state
+        String state = keyHexString.substring(0, stateLength);
+        String coupling = keyHexString.substring(stateLength);
 
-	initialState = new Vector(HexStringCodec.fromHexString(state));
-	couplingMatrix = new Matrix(HexStringCodec.fromHexString(coupling),
-				    size);
+        initialState = new Vector(HexStringCodec.fromHexString(state));
+        couplingMatrix = new Matrix(HexStringCodec.fromHexString(coupling),
+                size);
     }
 
     /**
@@ -71,8 +71,8 @@ public class Key {
      * @return Hex string representation of the key.
      */
     public String toString() {
-	return HexStringCodec.toHexString(initialState.getElements()) +
-	    HexStringCodec.toHexString(couplingMatrix.getElements());
+        return HexStringCodec.toHexString(initialState.getElements()) +
+                HexStringCodec.toHexString(couplingMatrix.getElements());
     }
 
     /**
@@ -81,15 +81,15 @@ public class Key {
      * @return The coupling matrix.
      */
     public Matrix getCoupling(){
-	return couplingMatrix;
+        return couplingMatrix;
     }
-    
+
     /**
      *	Get the initial state vector.
      *
      * @return The initial state vector.
      */
     public Vector getState(){
-	return initialState;
+        return initialState;
     }
 }

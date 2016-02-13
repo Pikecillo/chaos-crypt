@@ -33,18 +33,19 @@ task copyJar(type: Copy, dependsOn: build) {
 }
 
 task buildDist(dependsOn: copyJar) {
-     // Check if dist folder exists, and create it if not
-     def distDir = new File(distDirname)
-     if(!distDir.exists()) {  
-         distDir.mkdirs()
-     }
+    // Check if dist folder exists, and create it if not
+    def distDir = new File(distDirname)
+    if(!distDir.exists()) {  
+        distDir.mkdirs()
+    }
 
-     def pw = new PrintWriter("$distDirname/$scriptName")
-     pw.println('#!/bin/sh')
-     pw.println("java -jar $jarDistDirname/ccrypt.jar \$@")
-     pw.close()
+	// Create run script
+    def pw = new PrintWriter("$distDirname/$scriptName")
+    pw.println('#!/bin/sh')
+    pw.println("java -jar $jarDistDirname/ccrypt.jar \$@")
+    pw.close()
 }
 
 task cleanDist(type:Delete, dependsOn: clean) {
-     delete distDirname
+    delete distDirname
 }
