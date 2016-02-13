@@ -127,9 +127,6 @@ public class TextDependentEncryption implements SymmetricCipher {
                 // factor of -1
                 if(perturb) cmn.perturbState(-1.0);
             }
-
-            System.out.println(cmn.getState().toString());
-            System.out.println("iterations " + iterations + "i " + i);
         }
 
         return ciphertext;

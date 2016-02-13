@@ -19,17 +19,17 @@ To decrypt it run
 
     $ sh ccrypt d key.tde ccrypt.enc ccrypt.dec
 
-A copy of Sun Tzu's The Art of War, and a copy of the original paper where
-the method is described, can be found (encrypted) in folder
-res/cipher-text. To decrypt them use key res/keys/key1 as well (or was it key2?).
+Sample cipher-text can be found in folder res/cipher-text. The corresponding
+private keys can be found in folder res/keys. You'll be happy reading the
+plain-text if you are a fan of Lewis Carroll.
 
 ### To anyone who might want to use **ccrypt** for anything other than mere intellectual curiosity
 
 - Use it for a good purpose. Make ya momma proud.
 - I would bet you (unless you are [Bruce Schneier]
-(https://www.schneierfacts.com/)) 50 bucks you cannot break the encryption.
-However, I don't know about any thorough study on the strength of the
-cryptosystem, so that's something to keep in mind.
+(https://www.schneierfacts.com/)) 14 bucks and 99 cents you cannot break the
+encryption. However, I don't know about any thorough study on the strength of
+the cryptosystem, so I don't know for sure how safe my bet is.
 - Last but not least, some caveats:
     - The generated ciphertext is twice as large as the plaintext.
     - It seems to me there is no guarantee that *any* piece of
