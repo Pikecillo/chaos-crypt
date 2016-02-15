@@ -1,6 +1,8 @@
 #TODO
 
 - Make KeyLoader write/read key from file with 72 hex-symboles per line.
+- Create sample code showing decription of image payload with slight change
+in key.
 - Re-enable perturbation option during key gen.
 - Validate format of input file in KeyLoader.
 - Validate that input string is valid in Key(String s).
