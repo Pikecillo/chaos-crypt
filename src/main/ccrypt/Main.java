@@ -34,7 +34,7 @@ import ccrypt.tde.KeyLoader;
 import ccrypt.tde.TextLoader;
 import ccrypt.tde.TextDependentEncryption;
 
-class CCryptMain {
+class Main {
 
     private static String mode;
 
@@ -44,20 +44,18 @@ class CCryptMain {
 
     private static String outputFilename;
 
-    private final static int KEY_NOT_FOUND = 0;
-    private final static int FILE_NOT_FOUND = 1;
-    private final static int MALFORMED_KEY = 2;
-    private final static int OUTPUT = 3;
-    private final static int ARGUMENTS = 4;
-    private final static int INVALID_MODE = 5;
-    private final static int UNEXPECTED = 6;
+    private enum ErrorCode {
+	KEY_NOT_FOUND, FILE_NOT_FOUND, MALFORMED_KEY,
+	OUTPUT_ERROR, ARGUMENT_ERROR, INVALID_MODE,
+	UNEXPECTED_ERROR
+    };
 
     private static void generateKey(String outFilename) {
         try {
             KeyLoader.write(KeyGenerator.create(), outputFilename);
         }
         catch (IOException e) {
-            exitWithErrorMessage(OUTPUT, "");
+            exitWithErrorMessage(ErrorCode.OUTPUT_ERROR, "");
         }
     }
 
@@ -67,7 +65,7 @@ class CCryptMain {
         try {
             key = KeyLoader.read(keyFilename);
         } catch(IOException e) {
-            exitWithErrorMessage(KEY_NOT_FOUND, keyFilename);
+            exitWithErrorMessage(ErrorCode.KEY_NOT_FOUND, keyFilename);
         }
 
         return key;
@@ -80,9 +78,9 @@ class CCryptMain {
             text = (new TextLoader(
                     new FileInputStream(inFilename))).getText();
         } catch(FileNotFoundException e) {
-            exitWithErrorMessage(FILE_NOT_FOUND, inFilename);
+            exitWithErrorMessage(ErrorCode.FILE_NOT_FOUND, inFilename);
         } catch(IOException e) {
-            exitWithErrorMessage(UNEXPECTED, inputFilename);
+            exitWithErrorMessage(ErrorCode.UNEXPECTED_ERROR, inFilename);
         }
 
         return text;
@@ -116,7 +114,7 @@ class CCryptMain {
             out.write(outputText);
             out.close();
         } catch(IOException e) {
-            exitWithErrorMessage(OUTPUT, outputFilename);
+            exitWithErrorMessage(ErrorCode.OUTPUT_ERROR, outputFilename);
         }
     }
 
@@ -140,14 +138,14 @@ class CCryptMain {
         }
         else {
             // If wrong number of parameters
-            exitWithErrorMessage(ARGUMENTS, "");
+            exitWithErrorMessage(ErrorCode.ARGUMENT_ERROR);
         }	
 
         // If wrong mode parameter
         if(mode.compareTo("d") != 0 &&
                 mode.compareTo("e") != 0 &&
                 mode.compareTo("g") != 0)
-            exitWithErrorMessage(INVALID_MODE, mode);
+            exitWithErrorMessage(ErrorCode.INVALID_MODE, mode);
     }
 
     /**
@@ -161,9 +159,17 @@ class CCryptMain {
     }
 
     /**
-     * Shows error messages
+     * Show error messages
      */
-    private static void exitWithErrorMessage(int error, String additional) {
+    private static void exitWithErrorMessage(ErrorCode error) {
+	exitWithErrorMessage(error, "");
+    }
+
+    /**
+     * Shows error messages with additional info
+     */
+    private static void exitWithErrorMessage(ErrorCode error,
+					     String additional) {
         boolean showUsage = false;
         String message;
 
@@ -186,11 +192,11 @@ class CCryptMain {
             message = "Error - Malformed key";
             break;
 
-        case OUTPUT:
+        case OUTPUT_ERROR:
             message = "Error - Unable to write file: ";
             break;
 
-        case ARGUMENTS:
+        case ARGUMENT_ERROR:
             message = "Error - Some input arguments are missing";
             showUsage = true;
             break;
@@ -210,15 +216,15 @@ class CCryptMain {
      */
     private static void usage(){
         String message =
-                "\nUsage: ./ccrypt [g output] | [(e | d) key input output]\n" +
-                        "\tmodes\n" +
-                        "\t\tg --> generate key\n" +
-                        "\t\te --> encrypt\n" +
-                        "\t\td --> decrypt\n" +
-                        "\tkey  --> path to key file\n" +
-                        "\tinput --> input plaintext/ciphertext filename\n" +
-                        "\toutput --> output key/ciphertext/plaintext filename\n";
-
+	    "\nUsage: ./ccrypt [g output] | [(e | d) key input output]\n" +
+	    "\tmodes\n" +
+	    "\t\tg --> generate key\n" +
+	    "\t\te --> encrypt\n" +
+	    "\t\td --> decrypt\n" +
+	    "\tkey  --> path to key file\n" +
+	    "\tinput --> input plaintext/ciphertext filename\n" +
+	    "\toutput --> output key/ciphertext/plaintext filename\n";
+	
         System.err.println(message);
     }
 }

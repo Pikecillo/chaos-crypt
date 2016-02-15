@@ -8,7 +8,7 @@ jar {
     baseName = 'ccrypt'
 
     manifest {
-    	 attributes 'Main-Class': 'ccrypt.CCryptMain'
+    	 attributes 'Main-Class': 'ccrypt.Main'
 	 attributes 'Implementation-Title': 'chaos-crypt'
 	 attributes 'Implementation-Version': '0.1'
     }
