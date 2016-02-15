@@ -21,11 +21,10 @@
 
 package ccrypt.tde;
 
+import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Reader and writer of TDE keys.
@@ -39,21 +38,34 @@ public class KeyLoader {
      * @return The key.
      */
     public static Key read(String inputFilename) throws IOException {
-        byte[] bytes = Files.readAllBytes(Paths.get(inputFilename));
-        return new Key(new String(bytes, StandardCharsets.US_ASCII));
+        BufferedReader reader = new BufferedReader(new FileReader(inputFilename));
+        String keyString = "", line;
+        
+        while((line = reader.readLine()) != null) {
+            keyString += line;
+        }
+        
+        reader.close();
+        
+        return new Key(keyString);
     }
 
     /**
      * Write a TDE key to a file.
      *
      * @param key The key.
-     * @param outputFilename Name of output file.
+     * @param outputFilename Name of the output file.
      */
-    public static void write(Key key, String outputFilename)
-            throws IOException {
+    public static void write(Key key, String outputFilename) throws IOException {
         FileOutputStream output = new FileOutputStream(outputFilename);
+        String strKey = key.toString();
+        int stride = 64;
         
-        output.write(key.toString().toLowerCase().getBytes());
+        for(int i = 0; i < strKey.length(); i += stride) {
+            String line = (i == 0 ? "" : "\n")
+                    + strKey.substring(i, i + stride).toLowerCase();
+            output.write(line.getBytes());
+        }
         output.close();
     }
 }

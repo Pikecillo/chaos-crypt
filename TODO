@@ -1,14 +1,14 @@
 #TODO
 
-- Make KeyLoader write/read key from file with 72 hex-symboles per line.
-- Create sample code showing decription of image payload with slight change
-in key.
+- Create demo code showing decription of image payload with a slight change
+in the key.
 - Re-enable perturbation option during key gen.
 - Validate format of input file in KeyLoader.
 - Validate that input string is valid in Key(String s).
 - Validate that input cipher-text is valid (size is even).
 - Improve argument parsing, and feed-back messages.
-- Handle gracefully case of over|underflow during encryption.
+- Handle gracefully case of overflow/underflow during encryption.
 - Thorough testing.
 - Make TDE encryption/decryption faster.
+- Handle cases where more than 2^16 iterations are required for encryption.
 - Implement other crypto-systems.
