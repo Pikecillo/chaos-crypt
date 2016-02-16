@@ -99,4 +99,15 @@ public class CoupledMapNetwork {
         // contributions
         state = local.add(global);
     }
+
+    /**
+     * Iterate the network for a given number of time steps.
+     *
+     * @param it A given number of steps.
+     */
+    public void iterate(int it) {
+	for(int i = 0; i < it; i++) {
+	    iterate();
+	}
+    }
 }

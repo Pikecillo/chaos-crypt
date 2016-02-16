@@ -32,7 +32,7 @@ import ccrypt.tde.Key;
 import ccrypt.tde.KeyGenerator;
 import ccrypt.tde.KeyLoader;
 import ccrypt.tde.TextLoader;
-import ccrypt.tde.TextDependentEncryption;
+import ccrypt.tde.TextDependentCipher;
 
 class Main {
 
@@ -97,8 +97,8 @@ class Main {
         Key key = loadKey(keyFilename);
         byte inputText[] = loadText(inputFilename);
 
-        TextDependentEncryption tde =
-                new TextDependentEncryption(key);
+        TextDependentCipher tde =
+                new TextDependentCipher(key);
 
         byte outputText[] = null;
         if(mode.compareTo("e") == 0) {

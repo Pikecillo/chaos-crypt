@@ -37,7 +37,7 @@ public class HexStringCodec {
      * @return The hex string representation.
      */
     public static String toHexString(double doubles[]) {
-	byte bytes[] = new byte[doubles.length * 8];
+	byte bytes[] = new byte[doubles.length << 3];
 	ByteBuffer buffer = ByteBuffer.wrap(bytes);
 
 	for(int i = 0; i < doubles.length; i++) {

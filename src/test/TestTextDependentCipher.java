@@ -23,11 +23,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 import ccrypt.tde.Key;
-import ccrypt.tde.TextDependentEncryption;
+import ccrypt.tde.TextDependentCipher;
 import ccrypt.cmn.Vector;
 import ccrypt.cmn.Matrix;
 
-public class TestTextDependentEncryption {
+public class TestTextDependentCipher {
 
     private double initialState[] = 
         { 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8 }; 
@@ -49,7 +49,7 @@ public class TestTextDependentEncryption {
 
     @Test
     public void testDecryptEncrypt() {
-        TextDependentEncryption tde = new TextDependentEncryption(key);
+        TextDependentCipher tde = new TextDependentCipher(key);
 
         // Create an array holding every possible 8-bit symbol
 
@@ -68,7 +68,7 @@ public class TestTextDependentEncryption {
 
         // Test the same with state perturbation option
 
-        tde = new TextDependentEncryption(key, true);
+        tde = new TextDependentCipher(key, true);
 
         recovered_plaintext = tde.decrypt(tde.encrypt(text));
 

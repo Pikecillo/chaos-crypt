@@ -22,30 +22,30 @@
 package ccrypt.cmn;
 
 /**
- * Abstract class for unidimensional chaotic maps.
+ * Logarithmic map: x(i+1) = b + ln(|x(i)|).
+ * This map is chaotic with no periodic windows for b in the
+ * interval (-1, 1).
  */
-public abstract class ChaoticMap {
-
+public class LogarithmicMap extends ChaoticMap {
+    
+    private double b;
+    
     /**
-     * The implementation of this method should provide the state
-     * of the map for the subsequent time step.
+     * Create and instance of the logarithmic map.
      *
-     * @param x Current state of the chaotic map.
-     * @return State of the map on the subsequent time step.
+     * @param p Translation parameter.
      */
-    public abstract double eval(double x);
-
+    public LogarithmicMap(double p){
+	b = p;
+    }
+    
     /**
-     * Iterate the chaotic map a given number of times;
+     * Evaluate logarithmic map given the current state.
      *
-     * @param x Current state of the chaotic map.
-     * @param it Number of iterations.
-     * @return State of the map after the given number of iterations.
+     * @param x Current state.
+     * @return Next state.
      */
-    public double iterate(double x, int it) {
-	for(int i = 0; i < it; i++)
-	    x = eval(x);
-
-	return x;
+    public double eval(double x){
+	return b + Math.log(Math.abs(x));
     }
 }

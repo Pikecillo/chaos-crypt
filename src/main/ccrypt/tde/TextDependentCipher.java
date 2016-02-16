@@ -24,13 +24,13 @@ package ccrypt.tde;
 import ccrypt.SymmetricCipher;
 import ccrypt.cmn.CoupledMapNetwork;
 import ccrypt.cmn.ChaoticMap;
-import ccrypt.cmn.Maps;
+import ccrypt.cmn.LogarithmicMap;
 import ccrypt.cmn.Vector;
 
 /**
  * Class for performing Text Dependent Encryption
  */
-public class TextDependentEncryption implements SymmetricCipher {
+public class TextDependentCipher implements SymmetricCipher {
 
     // If set to true dynamic of the coupled map network
     // should be perturbed at each time step
@@ -47,7 +47,7 @@ public class TextDependentEncryption implements SymmetricCipher {
      * 
      * @param key Private key.
      */
-    public TextDependentEncryption(Key k) {
+    public TextDependentCipher(Key k) {
         this(k, false);
     }
 
@@ -61,8 +61,8 @@ public class TextDependentEncryption implements SymmetricCipher {
      * @param perturb If set to true the CMN state is perturbed externally
      *        at every iteration. Otherwise states remains unperturbed.
      */
-    public TextDependentEncryption(Key k, boolean perturb) {
-        this(k, perturb, new Maps.Logarithmic(0.5));
+    public TextDependentCipher(Key k, boolean perturb) {
+        this(k, perturb, new LogarithmicMap(0.5));
     }
 
     /**
@@ -76,7 +76,7 @@ public class TextDependentEncryption implements SymmetricCipher {
      *        at every iteration. Otherwise states remains unperturbed.
      * @param map Chaotic map to be used as local dynamic of the CMN.
      */
-    public TextDependentEncryption(Key k, boolean perturb, ChaoticMap map) {
+    public TextDependentCipher(Key k, boolean perturb, ChaoticMap map) {
         key = k;
         this.perturb = perturb;
         // Set the coupled map network from the key
@@ -144,14 +144,13 @@ public class TextDependentEncryption implements SymmetricCipher {
 
         // For each integer on the cipher-text sequence
         for(int i = 0 ; i < ciphertext.length ; i += 2) {
-            // Iterate the coupled map network for
-            // the given number of states
             int lower = ciphertext[i] & 0xFF;
             int upper = ciphertext[i + 1] & 0xFF;
             int iterations = (upper << 8) | lower;
 
-            for(int j = 1 ; j <= iterations ; j++)
-                cmn.iterate();
+	    // Iterate the coupled map network for
+            // the given number of states
+	    cmn.iterate(iterations);
 
             // Convert the network state to a byte
             plaintext[i >> 1] = binaryState(cmn.getState());
