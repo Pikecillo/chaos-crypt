@@ -1,4 +1,4 @@
-# ChaosCrypt
+# Chaos-Crypt
 This repo contains **ccrypt**, a Java implementation of the private key
 cryptosystem described in ["Coupled Map Networks as Communication Schemes"]
 (http://arxiv.org/abs/nlin/0201042)(1). Super simple, and presumably strong
@@ -22,6 +22,19 @@ To decrypt it run
 Sample cipher-text can be found in folder res/cipher-text. The corresponding
 private keys can be found in folder res/keys. You'll be happy reading the
 plain-text if you are a fan of Lewis Carroll.
+
+### Visual
+
+Chaotic cryptography takes advantage of the high sensitivity to initial
+conditions exhibited by certain dynamical systems. The content of following
+image was encrypted using the Text Dependent Encryption
+
+![Plain image](res/img/watercolor.jpg)
+
+Text Dependent Encryption keys are 576-bit long. This is what happens when
+a single bit of the key is flipped.
+
+![Slightly different key](res/img/watercolor.jpg)
 
 ### To anyone who might want to use **ccrypt** for anything other than mere intellectual curiosity
 
