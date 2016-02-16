@@ -44,8 +44,11 @@ public class TextDependentKey {
      * @return Random TDE key.
      */
     public static TextDependentKey create() {
-        Vector state = new Vector(Random.randomDoubles(8));
-        Matrix coupling = new Matrix(Random.randomDoubles(64), 8);
+	// Note with larger values (even [-1.0, 0.0]) floating
+	// point arithmetic overflows.
+	double lo = -0.05, hi = 0.05;
+        Vector state = new Vector(Random.randomDoubles(8, lo, hi));
+        Matrix coupling = new Matrix(Random.randomDoubles(64, lo, hi), 8);
 
         return new TextDependentKey(state, coupling);
     }

@@ -61,7 +61,7 @@ class Main {
         TextDependentKey key = null;
 
         try {
-            key = TextDependentKeyLoader.read(keyFilename);
+            key = TextDependentKeyLoader.read(inFilename);
         } catch(IOException e) {
             exitWithErrorMessage(ErrorCode.KEY_NOT_FOUND, keyFilename);
         }

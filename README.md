@@ -31,8 +31,9 @@ image was encrypted using the Text Dependent Encryption
 
 ![Plain image](res/img/watercolor.jpg)
 
-Text Dependent Encryption keys are 576-bit long. This is what happens when
-a single bit of the key is flipped.
+This is what happens when we try to recover the image using a slightly
+tampered key. Text Dependent Encryption keys are 576-bit long, here one single
+bit of the key was flipped.
 
 ![Slightly different key](res/img/bit-flip.jpg)
 
