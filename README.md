@@ -34,7 +34,7 @@ image was encrypted using the Text Dependent Encryption
 Text Dependent Encryption keys are 576-bit long. This is what happens when
 a single bit of the key is flipped.
 
-![Slightly different key](res/img/watercolor.jpg)
+![Slightly different key](res/img/bit-flip.jpg)
 
 ### To anyone who might want to use **ccrypt** for anything other than mere intellectual curiosity
 
