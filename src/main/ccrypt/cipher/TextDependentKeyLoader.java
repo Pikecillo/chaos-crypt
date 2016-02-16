@@ -19,7 +19,7 @@
 
 ======================================================================*/
 
-package ccrypt.tde;
+package ccrypt.cipher;
 
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -29,7 +29,7 @@ import java.io.FileOutputStream;
 /**
  * Reader and writer of TDE keys.
  */
-public class KeyLoader {
+public class TextDependentKeyLoader {
 
     /**
      * Reads a TDE key from a file.
@@ -37,8 +37,8 @@ public class KeyLoader {
      * @param inputFilename Name of input file.
      * @return The key.
      */
-    public static Key read(String inputFilename) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(inputFilename));
+    public static TextDependentKey read(String inFilename) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(inFilename));
         String keyString = "", line;
         
         while((line = reader.readLine()) != null) {
@@ -47,7 +47,7 @@ public class KeyLoader {
         
         reader.close();
         
-        return new Key(keyString);
+        return new TextDependentKey(keyString);
     }
 
     /**
@@ -56,8 +56,9 @@ public class KeyLoader {
      * @param key The key.
      * @param outputFilename Name of the output file.
      */
-    public static void write(Key key, String outputFilename) throws IOException {
-        FileOutputStream output = new FileOutputStream(outputFilename);
+    public static void write(TextDependentKey key,
+			     String outFilename) throws IOException {
+        FileOutputStream output = new FileOutputStream(outFilename);
         String strKey = key.toString();
         int stride = 64;
         

@@ -22,10 +22,10 @@
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
-import ccrypt.tde.Key;
-import ccrypt.tde.TextDependentCipher;
-import ccrypt.cmn.Vector;
-import ccrypt.cmn.Matrix;
+import ccrypt.cipher.TextDependentKey;
+import ccrypt.cipher.TextDependentCipher;
+import ccrypt.map.Vector;
+import ccrypt.map.Matrix;
 
 public class TestTextDependentCipher {
 
@@ -43,7 +43,7 @@ public class TestTextDependentCipher {
             { 0.075, 0.07, 0.065, 0.06, 0.055, 0.05, 0.045, 0.04 }
     };
 
-    private Key key = new Key(
+    private TextDependentKey key = new TextDependentKey(
             new Vector(initialState),
             new Matrix(couplingMatrix));
 

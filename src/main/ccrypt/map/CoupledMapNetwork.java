@@ -19,7 +19,7 @@
 
 ======================================================================*/
 
-package ccrypt.cmn;
+package ccrypt.map;
 
 /**
  * A network of coupled chaotic maps.

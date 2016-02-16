@@ -19,13 +19,12 @@
 
 ======================================================================*/
 
-package ccrypt.tde;
+package ccrypt.cipher;
 
-import ccrypt.SymmetricCipher;
-import ccrypt.cmn.CoupledMapNetwork;
-import ccrypt.cmn.ChaoticMap;
-import ccrypt.cmn.LogarithmicMap;
-import ccrypt.cmn.Vector;
+import ccrypt.map.CoupledMapNetwork;
+import ccrypt.map.ChaoticMap;
+import ccrypt.map.LogarithmicMap;
+import ccrypt.map.Vector;
 
 /**
  * Class for performing Text Dependent Encryption
@@ -38,7 +37,7 @@ public class TextDependentCipher implements SymmetricCipher {
     // Coupled map network
     private CoupledMapNetwork cmn;
     // Text Dependent Encryption secret key
-    private Key key;
+    private TextDependentKey key;
 
     /**
      * Creates an and instance for TDE encryption/decryption
@@ -47,7 +46,7 @@ public class TextDependentCipher implements SymmetricCipher {
      * 
      * @param key Private key.
      */
-    public TextDependentCipher(Key k) {
+    public TextDependentCipher(TextDependentKey k) {
         this(k, false);
     }
 
@@ -61,7 +60,7 @@ public class TextDependentCipher implements SymmetricCipher {
      * @param perturb If set to true the CMN state is perturbed externally
      *        at every iteration. Otherwise states remains unperturbed.
      */
-    public TextDependentCipher(Key k, boolean perturb) {
+    public TextDependentCipher(TextDependentKey k, boolean perturb) {
         this(k, perturb, new LogarithmicMap(0.5));
     }
 
@@ -76,7 +75,8 @@ public class TextDependentCipher implements SymmetricCipher {
      *        at every iteration. Otherwise states remains unperturbed.
      * @param map Chaotic map to be used as local dynamic of the CMN.
      */
-    public TextDependentCipher(Key k, boolean perturb, ChaoticMap map) {
+    public TextDependentCipher(TextDependentKey k, boolean perturb,
+			       ChaoticMap map) {
         key = k;
         this.perturb = perturb;
         // Set the coupled map network from the key

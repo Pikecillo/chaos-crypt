@@ -19,28 +19,33 @@
 
 ======================================================================*/
 
-package ccrypt;
+package ccrypt.map;
 
 /**
- * A symmetric cipher interface
+ * Abstract class for unidimensional chaotic maps.
  */
-public interface SymmetricCipher {
+public abstract class ChaoticMap {
 
     /**
-     * This method should implement encryption. This method should
-     * be the inverse of decrypt.
+     * The implementation of this method should provide the state
+     * of the map for the subsequent time step.
      *
-     * @param plaintext The plaintext.
-     * @return The corresponding ciphertex.
+     * @param x Current state of the chaotic map.
+     * @return State of the map on the subsequent time step.
      */
-    public byte[] encrypt(byte plaintext[]);
+    public abstract double eval(double x);
 
     /**
-     * This method should implement decryption. This method should
-     * be the inverse of encrypt.
+     * Iterate the chaotic map a given number of times;
      *
-     * @param ciphertext The ciphertext.
-     * @return The corresponding plaintext.
+     * @param x Current state of the chaotic map.
+     * @param it Number of iterations.
+     * @return State of the map after the given number of iterations.
      */
-    public byte[] decrypt(byte ciphertext[]);
+    public double iterate(double x, int it) {
+	for(int i = 0; i < it; i++)
+	    x = eval(x);
+
+	return x;
+    }
 }

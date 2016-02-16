@@ -19,32 +19,11 @@
 
 ======================================================================*/
 
-package ccrypt.cmn;
+package ccrypt.cipher;
 
-/**
- * Logistic map: x(i+1) = a * x(i) * (1 - x(i)).
- * This map is chaotic with periodic windows (i. e. for most values)
- * for a in the interval (3.57, 4).
- */
-public class LogisticMap extends ChaoticMap {
-    private double a;
-    
-    /**
-     * Create and instance of the logistic map.
-     *
-     * @param p Scale parameter.
-     */
-    public LogisticMap(double p) {
-	a = p;
-    }
-    
-    /**
-     * Evaluate logistic map given the current state.
-     *
-     * @param x Current state.
-     * @return Next state.
-     */
-    public double eval(double x) {
-	return a * x * (1 - x);
-    }
+public class BaptistaKey {
+    byte shuffle[] = new byte[256];
+    short trans;
+    double initialState;
+    double threshold;
 }

@@ -19,7 +19,7 @@
 
 ======================================================================*/
 
-package ccrypt.tde;
+package ccrypt;
 
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;

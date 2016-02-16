@@ -19,22 +19,36 @@
 
 ======================================================================*/
 
-package ccrypt.tde;
+package ccrypt.cipher;
 
-import javax.xml.bind.DatatypeConverter;
-
-import ccrypt.cmn.Matrix;
-import ccrypt.cmn.Vector;
+import ccrypt.HexStringCodec;
+import ccrypt.Random;
+import ccrypt.map.Matrix;
+import ccrypt.map.Vector;
 
 /**
  * Key for the Text Dependent Encryption method. Basically the aggregation
- * of a state vector and a coupling matrix of a coupled map network.
+ * of an initial state vector and the coupling matrix of a coupled map network.
  */
-public class Key {
+public class TextDependentKey {
 
     private Vector initialState;
 
     private Matrix couplingMatrix;
+
+    /**
+     * Creates a randomly generated TDE key. All elements
+     * of the initial state and coupling are uniformly distributed
+     * between -0.05 and 0.05.
+     *
+     * @return Random TDE key.
+     */
+    public static TextDependentKey create() {
+        Vector state = new Vector(Random.randomDoubles(8));
+        Matrix coupling = new Matrix(Random.randomDoubles(64), 8);
+
+        return new TextDependentKey(state, coupling);
+    }
 
     /**
      * Create an instance of the key.
@@ -44,7 +58,7 @@ public class Key {
      * @param coupling Matrix representing the coupling of elements in
      *        a coupled map network. 
      */
-    public Key(Vector state, Matrix coupling) {
+    public TextDependentKey(Vector state, Matrix coupling) {
         initialState = state;
         couplingMatrix = coupling;
     }
@@ -54,7 +68,7 @@ public class Key {
      *
      * @param keyHexString A hex string representation of a key.
      */
-    public Key(String keyHexString) {
+    public TextDependentKey(String keyHexString) {
         int size = 8;
         int stateLength = size * 16; // Amount of hex digits for state
         String state = keyHexString.substring(0, stateLength);

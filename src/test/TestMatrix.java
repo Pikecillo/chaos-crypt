@@ -22,8 +22,8 @@
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
-import ccrypt.cmn.Matrix;
-import ccrypt.cmn.Vector;
+import ccrypt.map.Matrix;
+import ccrypt.map.Vector;
 
 public class TestMatrix {
 

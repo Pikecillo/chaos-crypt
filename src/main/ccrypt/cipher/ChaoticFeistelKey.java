@@ -19,33 +19,8 @@
 
 ======================================================================*/
 
-package ccrypt.cmn;
+package ccrypt.cipher;
 
-/**
- * Abstract class for unidimensional chaotic maps.
- */
-public abstract class ChaoticMap {
+public class ChaoticFeistelKey {
 
-    /**
-     * The implementation of this method should provide the state
-     * of the map for the subsequent time step.
-     *
-     * @param x Current state of the chaotic map.
-     * @return State of the map on the subsequent time step.
-     */
-    public abstract double eval(double x);
-
-    /**
-     * Iterate the chaotic map a given number of times;
-     *
-     * @param x Current state of the chaotic map.
-     * @param it Number of iterations.
-     * @return State of the map after the given number of iterations.
-     */
-    public double iterate(double x, int it) {
-	for(int i = 0; i < it; i++)
-	    x = eval(x);
-
-	return x;
-    }
 }

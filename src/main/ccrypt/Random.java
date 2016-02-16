@@ -19,47 +19,31 @@
 
 ======================================================================*/
 
-package ccrypt.tde;
+package ccrypt;
 
 import java.security.SecureRandom;
-import ccrypt.cmn.Vector;
-import ccrypt.cmn.Matrix;
 
 /**
- * Generator of random TDE keys.
+ * Secure random number generation functions.
  */
-public class KeyGenerator {
-
-    /**
-     * Creates a randomly generated TDE key. All elements
-     * of the initial state and coupling are uniformly distributed
-     * between -0.05 and 0.05.
-     *
-     * @return Random TDE key.
-     */
-    public static Key create() {
-        Vector state = new Vector(KeyGenerator.randomDoubles(8));
-        Matrix coupling = new Matrix(KeyGenerator.randomDoubles(64), 8);
-
-        return new Key(state, coupling);
-    }
-
+public class Random {
+    
     /**
      * Create an array of random doubles
      *
      * @param size Number of doubles to generate.
      * @return An array of random doubles.
      */
-    private static double[] randomDoubles(int size) {
+    public static double[] randomDoubles(int size) {
         double array[] = new double[size];
         SecureRandom secureRandom = new SecureRandom();
-
+	
         for(int i = 0; i < size; i++) {
             // Note with larger values (even [-1.0, 0.0]) floating
             // point arithmetic overflows.
             array[i] = 0.1 * secureRandom.nextDouble() - 0.05;
         }
-
+	
         return array;
     }
 }

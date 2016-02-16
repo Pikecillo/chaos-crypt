@@ -26,13 +26,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 
-import ccrypt.cmn.Matrix;
-import ccrypt.cmn.Vector;
-import ccrypt.tde.Key;
-import ccrypt.tde.KeyGenerator;
-import ccrypt.tde.KeyLoader;
-import ccrypt.tde.TextLoader;
-import ccrypt.tde.TextDependentCipher;
+import ccrypt.TextLoader;
+import ccrypt.cipher.TextDependentKey;
+import ccrypt.cipher.TextDependentKeyLoader;
+import ccrypt.cipher.TextDependentCipher;
 
 class Main {
 
@@ -52,18 +49,19 @@ class Main {
 
     private static void generateKey(String outFilename) {
         try {
-            KeyLoader.write(KeyGenerator.create(), outputFilename);
+            TextDependentKeyLoader.write(TextDependentKey.create(),
+					 outFilename);
         }
         catch (IOException e) {
             exitWithErrorMessage(ErrorCode.OUTPUT_ERROR, "");
         }
     }
 
-    private static Key loadKey(String inFilename) {
-        Key key = null;
+    private static TextDependentKey loadKey(String inFilename) {
+        TextDependentKey key = null;
 
         try {
-            key = KeyLoader.read(keyFilename);
+            key = TextDependentKeyLoader.read(keyFilename);
         } catch(IOException e) {
             exitWithErrorMessage(ErrorCode.KEY_NOT_FOUND, keyFilename);
         }
@@ -94,7 +92,7 @@ class Main {
             return;
         }
 
-        Key key = loadKey(keyFilename);
+        TextDependentKey key = loadKey(keyFilename);
         byte inputText[] = loadText(inputFilename);
 
         TextDependentCipher tde =
